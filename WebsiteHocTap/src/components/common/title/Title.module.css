@@ -1,0 +1,24 @@
+.titleHomeStyle {
+}
+.titleStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 0;
+  height: 400px;
+}
+.titleStyle h2 {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #1eb2a6;
+  text-transform: uppercase;
+}
+.titleStyle h1 {
+  text-align: center;
+  font-size: 45px;
+  margin: 20px 0;
+  text-transform: capitalize;
+}

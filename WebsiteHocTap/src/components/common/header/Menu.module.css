@@ -1,0 +1,30 @@
+.containerMenu {
+  margin-top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  font-weight: unset;
+  margin-right: 15px;
+  gap: 20px;
+  width: 100%;
+}
+.itemMenu {
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
+}
+li {
+  display: flex;
+  margin-left: 10px;
+  height: 50px;
+  align-items: center;
+}
+li:hover {
+  cursor: pointer;
+
+  color: aqua;
+}
+li:active {
+  color: rgb(38, 0, 255);
+}
