@@ -4,7 +4,7 @@
   justify-content: center;
 }
 .loginBackground {
-  background-color: antiquewhite;
+  background-image: url("../../../../public/images/pexels-timson-foox-2182863.jpg");
   height: 100vh;
 }
 .loginPanel {

@@ -1,0 +1,38 @@
+.homeTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #2fe7d8;
+  background-image: url("../../../../public/images/pexels-thisisengineering-3862130\ \(1\).jpg");
+  background-attachment: fixed;
+}
+.buttonStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  padding: 0;
+  gap: 20px;
+}
+.titleStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 0;
+  height: 500px;
+}
+.titleStyle h2 {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #1eb2a6;
+  text-transform: uppercase;
+}
+.titleStyle h1 {
+  text-align: center;
+  font-size: 45px;
+  margin: 20px 0;
+  text-transform: capitalize;
+}

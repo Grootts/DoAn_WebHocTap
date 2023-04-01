@@ -13,18 +13,22 @@
   display: flex;
   justify-content: space-around;
   gap: 40px;
+  color: black;
 }
-li {
+.itemMenu li {
   display: flex;
   margin-left: 10px;
   height: 50px;
   align-items: center;
 }
-li:hover {
+.itemMenu li:hover {
   cursor: pointer;
-
-  color: aqua;
 }
-li:active {
-  color: rgb(38, 0, 255);
+.itemMenu a {
+  color: #000000;
+}
+
+.itemMenu a:hover {
+  list-style-type: none;
+  color: #1eb2a6;
 }

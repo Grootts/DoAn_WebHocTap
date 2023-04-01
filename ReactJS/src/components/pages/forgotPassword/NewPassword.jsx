@@ -1,30 +1,29 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import axios from "../../../services/axiosInterceptor";
 import styles from "./NewPassword.module.css";
 import { FaHome } from "react-icons/fa";
-import axios from "axios";
+
 export const NewPassword = () => {
-  const param = useParams();
-  const [data, setData] = useState({ password: "" });
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
-    console.log(data);
+  const { id, token } = useParams();
+  const navigate = useNavigate();
+  const [input, setInput] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await axios.post(
+      `/api/auth/forget-password/${id}/${token}`,
+      input
+    );
+    if (res.status === 200) {
+      alert("password changed Successfully");
+      navigate("/login");
+    }
   };
-
-  const handleClick = () => {
-    const verifyEmailUrl = async () => {
-      try {
-        const url = `http://localhost:8800/api/password-reset/${param.id}/${param.token}`;
-        const { data } = await axios.post(url, data);
-
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    verifyEmailUrl();
-  };
-
   return (
     <div className={styles.registerBackground}>
       <div className={styles.registerPanel}>
@@ -34,21 +33,33 @@ export const NewPassword = () => {
           </Link>
         </p>
         <div className={styles.registerTitle}>Tạo mật khẩu mới</div>
-        <form className={styles.registerEmailPassword} onSubmit={handleClick}>
+        <form className={styles.registerEmailPassword} onSubmit={handleSubmit}>
           <input
             type="password"
-            name="password"
-            id="password"
-            placeholder="password"
-            onChange={handleChange}
-            value={data.password}
+            id=""
+            placeholder="Enter New Password"
+            name="newPassword"
+            value={input.newPassword}
+            onChange={(e) =>
+              setInput({
+                ...input,
+                [e.target.name]: e.target.value,
+              })
+            }
           />
           <br />
           <input
             type="password"
-            name="confirm-password"
-            id="confirm-password"
-            placeholder="confirm-password"
+            id=""
+            placeholder="Enter Confirm Email"
+            name="confirmPassword"
+            value={input.confirmPassword}
+            onChange={(e) =>
+              setInput({
+                ...input,
+                [e.target.name]: e.target.value,
+              })
+            }
           />
           <br />
           <button>Ok</button>

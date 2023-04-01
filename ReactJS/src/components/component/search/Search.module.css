@@ -1,0 +1,29 @@
+.newletter {
+  display: flex;
+  justify-content: center;
+}
+.right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.newletter input {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  outline: none;
+
+  border-radius: 25px;
+  height: 0;
+  border: 1px solid #cccccc;
+}
+.icon {
+  color: #bec2c2;
+  background-color: #fff;
+  position: absolute;
+  right: 31%;
+  cursor: pointer;
+}
+.icon:hover {
+  color: #1e46b2;
+}

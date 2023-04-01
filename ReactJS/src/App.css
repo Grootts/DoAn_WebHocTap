@@ -6,8 +6,10 @@
 }
 body {
   font-family: "Roboto", sans-serif;
-  background-image: url("../public/images/2.jpg");
+  background-color: #f6faff;
+  height: 100%;
 }
+
 /*------------global-----------*/
 .container {
   max-width: 85%;
@@ -37,6 +39,7 @@ a {
 }
 li {
   list-style-type: none;
+  text-decoration: none;
 }
 .row {
   width: 50%;
@@ -57,7 +60,6 @@ button i {
 }
 button:hover {
   box-shadow: none;
-  background-color: #6b80dcd2;
 }
 .primary-btn {
   background-color: #1eb2a6;
@@ -73,7 +75,7 @@ button:hover {
   text-align: center;
   font-weight: 600;
   letter-spacing: 1px;
-  color: #1eb2a6;
+  color: #000000;
   text-transform: uppercase;
 }
 #heading h1 {
@@ -153,10 +155,5 @@ p {
   .grid3,
   .grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  .back {
-    background-position: center;
-    padding-top: 50%;
-    height: 80vh;
   }
 }

@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Account from "../../account/Account";
-import Head from "./Head";
 import styles from "./Menu.module.css";
 
 const Menu = () => {
@@ -24,7 +22,7 @@ const Menu = () => {
               <Link to="/">Trang chủ</Link>
             </li>
             <li>
-              <Link to="/courses">Khóa học</Link>
+              <Link to="/courses">Lớp học</Link>
             </li>
             <li>
               <Link to="/about">Thông tin</Link>

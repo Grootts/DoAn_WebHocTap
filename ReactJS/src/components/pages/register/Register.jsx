@@ -1,37 +1,27 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "../../../services/axiosInterceptor";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./Register.module.css";
 import { FaHome } from "react-icons/fa";
-import axios from "axios";
 export const Register = () => {
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
+  const navigate = useNavigate();
+  const [input, setInput] = useState({
+    name: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
 
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
-    console.log(data);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+
     try {
-      const url = "http://localhost:8800/api/users";
-      const { data: res } = await axios.post(url, data);
-      setMsg(res.message);
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
+      const response = await axios.post("api/auth/users/register", input);
+      if (response.status === 201) {
+        alert(response.data.message);
+        navigate("/login");
       }
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
   return (
@@ -43,49 +33,56 @@ export const Register = () => {
           </Link>
         </p>
         <div className={styles.registerTitle}>Đăng ký</div>
-        <form className={styles.registerEmailPassword} onSubmit={handleSubmit}>
+        <form
+          className={styles.registerEmailPassword}
+          onSubmit={handleRegister}
+        >
           <div className={styles.registerEmail}>
             <p>Tên của bạn:</p>
             <input
-              name="firstName"
+              placeholder="Enter Your Name"
               type="text"
               className={styles.registerInput}
-              placeholder="Nhập họ"
-              value={data.firstName}
-              onChange={handleChange}
-              required
-            />
-            <input
-              name="lastName"
-              type="text"
-              className={styles.registerInput}
-              placeholder="Nhập tên"
-              value={data.lastName}
-              onChange={handleChange}
+              name="name"
+              value={input.name}
+              onChange={(e) =>
+                setInput({
+                  ...input,
+                  [e.target.name]: e.target.value,
+                })
+              }
               required
             />
           </div>
           <div className={styles.registerPassword}>
             <p>Địa chỉ email:</p>
             <input
-              name="email"
+              placeholder="Enter Valid Email Address"
               type="email"
+              name="email"
+              value={input.email}
+              onChange={(e) =>
+                setInput({
+                  ...input,
+                  [e.target.name]: e.target.value,
+                })
+              }
               className={styles.registerInput}
-              placeholder="Địa chỉ email"
-              value={data.email}
-              onChange={handleChange}
-              required
             />
             <input
-              name="password"
               className={styles.registerInput}
-              placeholder="Mật khẩu"
-              value={data.password}
-              onChange={handleChange}
+              placeholder="Enter Password"
+              type="password"
+              name="password"
+              value={input.password}
+              onChange={(e) =>
+                setInput({
+                  ...input,
+                  [e.target.name]: e.target.value,
+                })
+              }
             />
           </div>
-          {error && <div className={styles.error_msg}>{error}</div>}
-          {msg && <div className={styles.success_msg}>{msg}</div>}
           <button className={styles.registerButton}>Đăng ký</button>
           <p>
             Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>

@@ -1,4 +1,6 @@
 .titleHomeStyle {
+  background-image: url("../../../../public/images/pexels-thisisengineering-3862130\ \(1\).jpg");
+  background-attachment: fixed;
 }
 .titleStyle {
   display: flex;
@@ -7,7 +9,7 @@
   justify-content: center;
   text-align: center;
   padding: 40px 0;
-  height: 400px;
+  height: 200px;
 }
 .titleStyle h2 {
   text-align: center;
@@ -20,5 +22,6 @@
   text-align: center;
   font-size: 45px;
   margin: 20px 0;
+  color: #2ee3d4f5;
   text-transform: capitalize;
 }

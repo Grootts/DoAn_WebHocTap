@@ -1,31 +1,27 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../../../services/axiosInterceptor";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import { FaHome } from "react-icons/fa";
 export const Login = () => {
-  const [data, setData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:8800/api/auth";
-      const { data: res } = await axios.post(url, data);
-      localStorage.setItem("token", res.data);
-      window.location = "/";
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
+      const response = await axios.post("api/auth/users/login", input);
+      if (response.status === 200) {
+        alert(response.data.message);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("name", response.data.name);
+        navigate("/");
       }
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
 
@@ -38,35 +34,50 @@ export const Login = () => {
           </Link>
         </p>
         <div className={styles.loginTitle}>Đăng nhập</div>
-        <form className={styles.loginEmailPassword} onSubmit={handleSubmit}>
+        <form className={styles.loginEmailPassword} onSubmit={handleLogin}>
           <div className={styles.loginEmail}>
             <p>Tài khoản:</p>
             <input
-              name="email"
               className={styles.loginInput}
-              placeholder="Nhập email"
-              value={data.email}
-              onChange={handleChange}
+              type="email"
+              id=""
+              placeholder="Enter Email"
+              name="email"
+              value={input.email}
+              onChange={(e) =>
+                setInput({
+                  ...input,
+                  [e.target.name]: e.target.value,
+                })
+              }
               required
             />
           </div>
           <div className={styles.loginPassword}>
             <p>Mật khẩu:</p>
             <input
-              name="password"
               className={styles.loginInput}
-              placeholder="Nhập mật khẩu"
-              value={data.password}
-              onChange={handleChange}
-              required
+              placeholder="Enter Password"
+              type="password"
+              id="form2Example27"
+              name="password"
+              value={input.password}
+              onChange={(e) =>
+                setInput({
+                  ...input,
+                  [e.target.name]: e.target.value,
+                })
+              }
             />
           </div>
-          {error && <div className={styles.error_msg}>{error}</div>}
+
           <button className={styles.loginButton}>Đăng nhập</button>
           <p>
             Bạn chưa có tài khoản? <Link to="/register">Đăng ký</Link>
           </p>
-          <p>Bạn quên mật khẩu ? <Link to='/forgotpassword'>Quên mật khẩu</Link></p>
+          <p>
+            Bạn quên mật khẩu ? <Link to="/reset-password">Quên mật khẩu</Link>
+          </p>
         </form>
       </div>
     </div>

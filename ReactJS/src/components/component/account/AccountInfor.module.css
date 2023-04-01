@@ -1,0 +1,17 @@
+.accountInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+}
+.accountInfo img {
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  border: 1px solid black;
+}
+
+.accountInfo p {
+  font-weight: 400;
+}

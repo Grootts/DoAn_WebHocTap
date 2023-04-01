@@ -44,35 +44,42 @@ export const coursesCard = [
     cover: "../images/courses/c1.png",
     coursesName: "Software Engineering",
 
-    priceAll: "1,000,000đ",
+    data: "Lời giới thiệu",
   },
   {
     id: 2,
     cover: "../images/courses/c1.png",
     coursesName: "Software Engineering",
 
-    priceAll: "1,000,000đ",
+    data: "Lời giới thiệu",
   },
   {
     id: 3,
     cover: "../images/courses/c1.png",
     coursesName: "Software Engineering",
 
-    priceAll: "1,000,000đ",
+    data: "Lời giới thiệu",
   },
   {
     id: 4,
     cover: "../images/courses/c1.png",
     coursesName: "Software Engineering",
 
-    priceAll: "1,000,000đ",
+    data: "Lời giới thiệu",
   },
   {
     id: 5,
     cover: "../images/courses/c1.png",
     coursesName: "Software Engineering",
 
-    priceAll: "1,000,000đ",
+    data: "Theo như thông tin tác giả cung cấp thì Perfecty Push Notifications là một plugin với chức năng tạo thông báo đẩy lên trình duyệt tự nó lưu trữ. Bạn sẻ không cần thêm API để tích hợp với các nhà cung cấp bên ngoài, vì thường sẻ bị tính phí. Plugin sử dụng mã nguồn mở và thông tin được lưu trữ trong WordPress của bạn, do đó bạn có thể gửi Thông báo đẩy trực tiếp từ máy chủ của bạn hoàn toàn miễn phí! ",
+  },
+  {
+    id: 6,
+    cover: "../images/courses/c1.png",
+    coursesName: "Software Engineering",
+
+    data: "Lời giới thiệu",
   },
 ];
 export const online = [

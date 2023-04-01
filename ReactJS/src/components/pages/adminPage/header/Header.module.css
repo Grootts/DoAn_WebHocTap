@@ -1,0 +1,12 @@
+.headerStyles {
+  background-color: #fff;
+  top: 0;
+  z-index: 99;
+  padding: 30px;
+  position: relative;
+  box-shadow: 5px 5px 5px rgb(216, 233, 239);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
