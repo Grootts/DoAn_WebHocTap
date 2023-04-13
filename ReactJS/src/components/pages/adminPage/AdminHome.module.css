@@ -3,4 +3,21 @@
   background-image: none;
   height: 100vh;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.homePanel {
+  height: 100%;
+  transition: 0.5s;
+  margin: 30px;
+  overflow: hidden;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 5px 5px 5px 5px rgb(216, 233, 239);
+}
+.adminLeft {
+  width: 30%;
+}
+.adminRight {
+  width: 100%;
 }

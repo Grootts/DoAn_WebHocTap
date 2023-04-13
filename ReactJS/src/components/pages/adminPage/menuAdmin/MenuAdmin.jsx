@@ -8,19 +8,19 @@ const MenuAdmin = () => {
       </div>
       <ul className={styles.menuItem}>
         <li>
-          <Link to="#">Trang chủ</Link>
+          <Link to="/admin">Trang chủ</Link>
         </li>
         <li>
-          <Link to="#">Quản lý học sinh</Link>
+          <Link to="manage-student">Quản lý học sinh</Link>
         </li>
         <li>
-          <Link to="#">Quản lý giáo viên</Link>
+          <Link to="manage-teacher">Quản lý giáo viên</Link>
         </li>
         <li>
-          <Link to="#">Quản lý lớp học</Link>
+          <Link to="manage-course">Quản lý lớp học</Link>
         </li>
         <li>
-          <Link to="#">Thống kê</Link>
+          <Link to="manage-statistical">Thống kê</Link>
         </li>
       </ul>
     </div>

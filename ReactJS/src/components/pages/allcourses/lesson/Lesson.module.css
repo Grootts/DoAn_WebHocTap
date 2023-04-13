@@ -1,0 +1,37 @@
+.lessonStyles {
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  width: 1024px;
+  padding: 30px;
+  gap: 30px;
+}
+.tableStyles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.tableStyles table {
+  border-collapse: collapse;
+}
+.courseTitle th {
+  border-bottom: 0 solid transparent;
+  background-color: #fff;
+  padding: 17px 30px;
+  line-height: 16px;
+  border: 0 solid transparent;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4d4f5c;
+  white-space: nowrap;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgb(130, 139, 178) !important;
+}
+
+.courseBody td {
+  border-bottom: 1px solid #bbbbbb;
+  padding: 5px;
+  text-align: center;
+}

@@ -3,10 +3,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: #f6faff;
 }
 .items {
   margin-bottom: 40px;
+}
+.teacherStyles{
+  background-color:#f6faff ;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  width: 1024px;
+  min-height: 35vh;
+  
 }
 .aboutCard {
   display: flex;

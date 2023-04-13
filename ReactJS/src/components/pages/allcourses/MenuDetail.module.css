@@ -1,0 +1,35 @@
+.menuStyles {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  left: 100px;
+  display: flex;
+  justify-content: center;
+}
+.menuItem li {
+  display: inline;
+  background-color: #333;
+  list-style-type: none;
+  float: left;
+  border: 1px solid #bbb;
+  border-radius: 20px 20px 0 0;
+}
+
+.menuItem li:hover {
+  background-color: #dfe0e2b2;
+  color: #010101;
+}
+
+.menuItem a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.menuItem a:hover {
+  color: #010101;
+}

@@ -20,8 +20,8 @@
 .icon {
   color: #bec2c2;
   background-color: #fff;
-  position: absolute;
-  right: 31%;
+  position: relative;
+  right: 15%;
   cursor: pointer;
 }
 .icon:hover {

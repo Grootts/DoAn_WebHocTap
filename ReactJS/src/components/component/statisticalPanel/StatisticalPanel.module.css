@@ -1,0 +1,11 @@
+.statisticalStyles {
+  border-radius: 10px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  padding: 41px 30px;
+  position: relative;
+  background: #3b76ef;
+  min-width: 20vh;
+  display: flex;
+  flex-direction: column;
+}

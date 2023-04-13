@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.post("/users/register", authController.userRegistration);
 router.post("/users/login", authController.userLogin);
-
+router.post("/teachers/register", authController.teacherRegistration);
+router.post("/teachers/login", authController.teacherLogin);
 // Forget Password
 
 router.post("/forget-password", authController.forgetPassword);

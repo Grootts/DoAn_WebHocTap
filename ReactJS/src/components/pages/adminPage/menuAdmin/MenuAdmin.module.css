@@ -1,24 +1,21 @@
 .menuAdminStyles {
-  height: 100vh;
   left: 0;
   top: 0;
   z-index: 99;
   padding-bottom: 50px;
-  position: fixed;
   width: 270px;
   z-index: 999;
-  overflow: hidden;
-  overflow-y: auto;
   transition: 0.5s;
   background-color: #fff;
   box-shadow: 2px 5px 5px rgba(187, 188, 189, 0.749);
+  border-radius: 10px;
 }
-
+.menuItem {
+  height: 100%;
+  background-color: #fff;
+}
 .menuLogo {
-  margin-left: 50px;
-  margin-right: 50px;
-  background: #fff;
-  padding-bottom: 30px;
+  padding: 35px 77px;
   border-radius: 7px;
 }
 .menuLogo img {
@@ -32,8 +29,15 @@
 }
 .menuItem li {
   list-style-type: none;
-  padding: 18px 25px 18px 30px;
+  padding: 45px 25px 45px 30px;
 }
+
+.menuItem li:hover {
+  background-color: #dfe0e2b2;
+  color: #010101;
+  cursor: pointer;
+}
+
 .menuItem a {
   font-size: 18px;
   font-weight: 600;
@@ -51,6 +55,7 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
+
 .menuItem a:hover {
   color: #010101;
 }

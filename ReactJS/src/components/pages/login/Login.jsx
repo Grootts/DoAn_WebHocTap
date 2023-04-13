@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../../services/axiosInterceptor";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import { FaHome } from "react-icons/fa";
+import Router from "../../../router/Router";
 export const Login = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post("api/auth/users/login", input);
+      const checkRole = response.data.role;
+
       if (response.status === 200) {
         alert(response.data.message);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("name", response.data.name);
-        navigate("/");
+
+        localStorage.setItem("role", response.data.role);
+
+        console.log(checkRole);
+        if (checkRole === "admin" || checkRole === "teacher") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       alert(error.response.data.message);

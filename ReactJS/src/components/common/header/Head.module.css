@@ -9,6 +9,7 @@
   width: 100%;
   border-bottom: 0.5px solid transparent;
   text-shadow: 0.5px 0.5px;
+  align-items: center;
 }
 .menuStyle {
   display: flex;

@@ -3,15 +3,120 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
+  cursor: pointer;
   gap: 10px;
+  padding: 0;
+
+  height: 100%;
+  margin-right: 30px;
+}
+.accountInfo::before {
+  content: "";
+  background: #dee2e6;
+  height: 30px;
+  width: 1px;
 }
 .accountInfo img {
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
   border: 1px solid black;
 }
 
 .accountInfo p {
   font-weight: 400;
+}
+.infoPanel {
+  width: 153px;
+  opacity: 0;
+  background-color: white;
+  position: absolute;
+  z-index: 1;
+  top: 65px;
+  right: 0px;
+  padding: 10px 15px;
+  transition: 1s;
+}
+.infoPanel::before {
+  position: absolute;
+  content: "";
+  border-style: solid;
+  top: -12px;
+  right: 111px;
+  border-width: 0 11px 12px;
+  border-color: transparent transparent #ffffff transparent;
+  z-index: 2;
+}
+.infoContainer:hover .infoPanel {
+  opacity: 1;
+}
+.infoPanel div {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+.infoTextTitle:hover {
+  color: #9bc6f1;
+}
+.infoTextTitle a {
+  color: black;
+}
+.infoTextTitle a:hover {
+  color: #9bc6f1;
+}
+.infoTextLogout:hover {
+  color: #9bc6f1;
+}
+.infoText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.img {
+  height: 200px;
+  width: 200px;
+}
+.showInfoPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+.showInfoText {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 10px;
+  justify-content: start;
+  align-items: center;
+}
+.button {
+  background-color: #3b76ef;
+  border: 1px solid #3b76ef;
+  color: #fff;
+  display: flex;
+  padding: 11px 23px;
+  text-transform: capitalize;
+  line-height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  white-space: nowrap;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.headerStyles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
 }

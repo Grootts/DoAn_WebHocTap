@@ -5,7 +5,7 @@ const Search = () => {
     <div className={styles.newletter}>
       <div className={styles.right}>
         <input type="text" placeholder="Tìm kiếm khóa học ..." />
-        <IoMdSearch className={styles.icon} size={20} />
+        <IoMdSearch className={styles.icon} size={30} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import styles from "./Header.module.css";
 const HeaderAdmin = () => {
   return (
     <div className={styles.headerStyles}>
-      <h1>..</h1>
+      <h1></h1>
       <AccountInfo />
     </div>
   );

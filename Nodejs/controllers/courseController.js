@@ -76,7 +76,67 @@ class courseController {
       });
     }
   };
-
+  static getAllCourse = async (req, res) => {
+    try {
+      const { limit, page, sort, filter } = req.query;
+      const totalCourse = await Course.count();
+      let allCourse = [];
+      if (filter) {
+        const label = filter[0];
+        const allObjectFilter = await Course.find({
+          [label]: { $regex: filter[1] },
+        })
+          .limit(limit)
+          .skip(page * limit)
+          .sort({ createdAt: -1, updatedAt: -1 });
+        return res.status(200).json({
+          status: "OK",
+          message: "Success",
+          data: allObjectFilter,
+          total: totalCourse,
+          pageCurrent: Number(page + 1),
+          totalPage: Math.ceil(totalCourse / limit),
+        });
+      }
+      if (sort) {
+        const objectSort = {};
+        objectSort[sort[1]] = sort[0];
+        const allCourseSort = await Course.find()
+          .limit(limit)
+          .skip(page * limit)
+          .sort(objectSort)
+          .sort({ createdAt: -1, updatedAt: -1 });
+        return res.status(200).json({
+          status: "OK",
+          message: "Success",
+          data: allCourseSort,
+          total: totalCourse,
+          pageCurrent: Number(page + 1),
+          totalPage: Math.ceil(totalCourse / limit),
+        });
+      }
+      if (!limit) {
+        allCourse = await Course.find().sort({ createdAt: -1, updatedAt: -1 });
+      } else {
+        allCourse = await Course.find()
+          .limit(limit)
+          .skip(page * limit)
+          .sort({ createdAt: -1, updatedAt: -1 });
+      }
+      return res.status(200).json({
+        status: "OK",
+        message: "Success",
+        data: allCourse,
+        total: totalCourse,
+        pageCurrent: Number(page + 1),
+        totalPage: Math.ceil(totalCourse / limit),
+      });
+    } catch (e) {
+      return res.status(404).json({
+        message: e,
+      });
+    }
+  };
   static getDetailsCourse = async (req, res) => {
     const courseId = req.params.id;
     try {

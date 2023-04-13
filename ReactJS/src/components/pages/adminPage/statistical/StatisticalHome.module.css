@@ -1,0 +1,8 @@
+.statisticalHome {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 350px 350px;
+  grid-template-rows: 200px 200px;
+  align-items: center;
+  justify-content: space-around;
+}

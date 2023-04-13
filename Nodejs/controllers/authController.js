@@ -33,6 +33,7 @@ class authController {
             email,
             password: hashedPassword,
             isVerified: false,
+            role: "student",
           });
 
           const resUser = await newUser.save();
@@ -72,6 +73,7 @@ class authController {
                 message: "Login Successfully",
                 token,
                 name: isUser.name,
+                role: isUser.role,
               });
             } else {
               return res.status(400).json({ message: "Invalid Credentials!" });
@@ -224,6 +226,93 @@ class authController {
         }
       } else {
         return res.status(400).json({ message: "Invalid URL" });
+      }
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
+  static teacherRegistration = async (req, res) => {
+    const { name, email, password } = req.body;
+    try {
+      if (name && email && password) {
+        const isteacher = await authModel.findOne({ email: email });
+        if (isteacher) {
+          return res.status(400).json({ message: "teacher Already Exists" });
+        } else {
+          // Password HAshing
+          const genSalt = await bcryptjs.genSalt(10);
+          const hashedPassword = await bcryptjs.hash(password, genSalt);
+          const secretKey = "websitehoctap";
+
+          const token = jwt.sign({ email: email }, secretKey, {
+            expiresIn: "10m",
+          });
+
+          const link = `http://localhost:8800/api/auth/verify/${token}`;
+
+          await sendEmail(email, "register", link);
+          // save the teacher
+          const newteacher = authModel({
+            name,
+            email,
+            password: hashedPassword,
+            isVerified: false,
+            role: "teacher",
+          });
+
+          const resteacher = await newteacher.save();
+          if (resteacher) {
+            return res.status(201).json({
+              message: "Registered Successfully",
+              teacher: resteacher,
+            });
+          }
+        }
+      } else {
+        return res.status(400).json({ message: "all fields are required" });
+      }
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
+  static teacherLogin = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      if (email && password) {
+        const isteacher = await authModel.findOne({ email: email });
+        if (isteacher) {
+          // Check is teacher Verified
+
+          const isVerifiedProfile = await authModel.findById(isteacher._id);
+
+          if (isVerifiedProfile.isVerified) {
+            if (
+              email === isteacher.email &&
+              (await bcryptjs.compare(password.toString(), isteacher.password))
+            ) {
+              // Generate token
+              const token = jwt.sign({ teacherID: isteacher._id }, "bang", {
+                expiresIn: "2d",
+              });
+              return res.status(200).json({
+                message: "Login Successfully",
+                token,
+                name: isteacher.name,
+                role,
+              });
+            } else {
+              return res.status(400).json({ message: "Invalid Credentials!" });
+            }
+          } else {
+            return res
+              .status(400)
+              .json({ message: "Email Verification Pending" });
+          }
+        } else {
+          return res.status(400).json({ message: "teacher Not Registered!!" });
+        }
+      } else {
+        return res.status(400).json({ message: "all fields are required" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });

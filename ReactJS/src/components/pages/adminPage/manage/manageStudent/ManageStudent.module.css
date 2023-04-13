@@ -1,0 +1,87 @@
+.manageCourseTable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.manageCourseTable table {
+  border-collapse: collapse;
+}
+.courseTitle th {
+  border-bottom: 0 solid transparent;
+  background-color: #fff;
+  padding: 17px 30px;
+  line-height: 16px;
+  border: 0 solid transparent;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4d4f5c;
+  white-space: nowrap;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgb(130, 139, 178) !important;
+}
+.addCourse {
+  background-color: #3b76ef;
+  border: 1px solid #3b76ef;
+  color: #fff;
+  display: flex;
+  padding: 11px 23px;
+  text-transform: capitalize;
+  line-height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  white-space: nowrap;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.addCourse:hover {
+  background-color: #fff;
+  color: black;
+}
+.courseBody th {
+  border-bottom: 0 solid transparent;
+  background-color: #fff;
+  padding: 17px 30px;
+  line-height: 16px;
+  border: 0 solid transparent;
+  font-size: 12px;
+  font-weight: 400;
+  color: #4d4f5c;
+  white-space: nowrap;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(209, 209, 209, 0.664) !important;
+}
+.inputAdd {
+  display: grid;
+  flex-direction: row;
+  grid-template-columns: 200px 200px;
+
+  padding: 10px;
+  align-items: center;
+}
+
+.inputAdd input {
+  border-radius: 5px;
+  border: 0.5px solid black;
+  min-height: 25px;
+  min-width: 100px;
+}
+.inputAdd textarea {
+  border-radius: 5px;
+  border: 0.5px solid black;
+  min-height: 25px;
+  min-width: 100px;
+}
+.deleteIcon,
+.updateIcon {
+  cursor: pointer;
+  color: black;
+  margin-right: 10px;
+}

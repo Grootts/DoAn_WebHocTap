@@ -1,0 +1,64 @@
+.orderPanel {
+  padding-left: 70px;
+  padding-right: 70px;
+}
+.orderPanel h2 {
+  padding: 10px;
+  border-bottom: 1px solid #3b76ef;
+}
+.orderShopping {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.orderItemText {
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  min-width: 700px;
+}
+.orderItemText img {
+  width: 130px;
+  height: 130px;
+}
+.orderItem {
+  display: flex;
+  flex-direction: row;
+  grid-area: auto;
+}
+.orderPay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.orderPay div {
+  background-color: #3b76ef;
+  border: 1px solid #3b76ef;
+  color: #fff;
+  display: flex;
+  padding: 11px 23px;
+  text-transform: capitalize;
+  line-height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  white-space: nowrap;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.orderItemAction {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}

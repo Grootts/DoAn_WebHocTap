@@ -29,6 +29,7 @@ export const ForgotPassword = () => {
             <input
               type="email"
               id=""
+              className={styles.loginInput}
               placeholder="Enter Email"
               name="newPassword"
               value={email}

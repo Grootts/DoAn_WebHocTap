@@ -19,5 +19,38 @@ const checkIsUserAuthenticated = async (req, res, next) => {
     return res.status(401).json({ message: "unAuthorized User" });
   }
 };
-
+// export const checkIsAdmin = async (req, res, next) => {
+//   const { id } = req.body;
+//   if (id) {
+//     try {
+//       const checkUser = await authModel.findOne({
+//         _id: id,
+//       });
+//       if (checkUser.role === "admin") {
+//         next();
+//       }
+//     } catch (error) {
+//       return res.status(401).json({ message: "no permission" });
+//     }
+//   } else {
+//     return res.status(401).json({ message: "id empty" });
+//   }
+// };
+// export const checkIsTeacher = async (req, res, next) => {
+//   const { id } = req.body;
+//   if (id) {
+//     try {
+//       const checkUser = await authModel.findOne({
+//         _id: id,
+//       });
+//       if (checkUser.role === "teacher") {
+//         next();
+//       }
+//     } catch (error) {
+//       return res.status(401).json({ message: "no permission" });
+//     }
+//   } else {
+//     return res.status(401).json({ message: "id empty" });
+//   }
+// };
 export default checkIsUserAuthenticated;

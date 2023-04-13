@@ -15,10 +15,17 @@ class userController {
       const checkUser = await authModel.findOne({
         _id: id,
       });
+
       if (checkUser === null) {
         return res.status(200).json({
           status: "ERR",
           message: "The user is not defined",
+        });
+      }
+      if (checkUser.role === "User") {
+        return res.status(200).json({
+          status: "ERR",
+          message: "no permission",
         });
       }
       const updatedUser = await authModel.findByIdAndUpdate(id, data, {
@@ -31,35 +38,92 @@ class userController {
       });
     }
   };
+  static getDetailsUser = async (req, res) => {
+    const userId = req.params.id;
+    try {
+      if (!userId) {
+        return res.status(200).json({
+          status: "ERR",
+          message: "The UserId is required",
+        });
+      }
+      const DetailsUser = await authModel.findOne({
+        _id: userId,
+      });
+      if (DetailsUser === null) {
+        return res.status(200).json({
+          status: "ERR",
+          message: "The User is not defined",
+        });
+      }
 
+      return res.status(200).json({
+        status: "OK",
+        message: "SUCESS",
+        data: DetailsUser,
+      });
+    } catch (e) {
+      return res.status(404).json({
+        message: e.message,
+      });
+    }
+  };
+  static getAllUser = async (req, res) => {
+    try {
+      const allUser = await authModel
+        .find()
+        .sort({ createdAt: -1, updatedAt: -1 });
+      res.status(200).json({
+        status: "OK",
+        message: "Success",
+        data: allUser,
+      });
+    } catch (e) {
+      return res.status(404).json({
+        message: e.message,
+      });
+    }
+  };
   static deleteUser = async (req, res) => {
     try {
-      const userId = req.params.id;
-      if (!userId) {
+      const { id } = req.params;
+      if (!id) {
         return res.status(200).json({
           status: "ERR",
           message: "The userId is required",
         });
       }
-
+      if (checkUser.role === "User") {
+        return res.status(200).json({
+          status: "ERR",
+          message: "no permission",
+        });
+      }
       const checkUser = await authModel.findOne({
         _id: id,
       });
+
       if (checkUser == null) {
         return res.status(200).json({
           status: "ERR",
           message: "The user is not defined",
         });
       }
-
-      await User.findByIdAndDelete(id);
+      console.log(checkUser.role);
+      if (checkUser.role === "User") {
+        return res.status(200).json({
+          status: "ERR",
+          message: "The user is not defined",
+        });
+      }
+      await authModel.findByIdAndDelete(id);
       return res.status(200).json({
         status: "OK",
         message: "Delete user success",
       });
     } catch (e) {
       return res.status(404).json({
-        message: userId,
+        message: e.message,
       });
     }
   };
