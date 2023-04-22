@@ -21,8 +21,11 @@ import ProfilePage from "../components/component/profilePage/ProfilePage";
 import Introduce from "../components/pages/allcourses/Introduce";
 import Lesson from "../components/pages/allcourses/lesson/Lesson";
 import OrderPage from "../components/pages/orderPage/OrderPage";
+import ManageLesson from "../components/pages/adminPage/manage/manageLesson/ManageLesson";
+import { useSelector } from "react-redux";
 const Router = () => {
   const data = localStorage.getItem("role", 1);
+  const user = useSelector((state) => state.user);
   console.log(data);
   const publicRouter = () => (
     <Routes>
@@ -53,14 +56,18 @@ const Router = () => {
         <Route path="manage-student" element={<ManageStudent />} />
         <Route path="manage-teacher" element={<ManageTeacher />} />
         <Route path="manage-course" element={<ManageCourse />} />
+
+        <Route path="manage-course/lesson/:id" element={<ManageLesson />} />
         <Route path="manage-statistical" element={<ManageStatistical />} />
       </Route>
     </Routes>
   );
   return (
     <div>
-      {(data === "student" || "null") && publicRouter()}
-      {(data === "admin" || "teacher") && privateRouter()}
+      {(user?.isRole === "student" || user?.isRole === "null") &&
+        publicRouter()}
+      {(user?.isRole === "admin" || user?.isRole === "teacher") &&
+        privateRouter()}
     </div>
   );
 };

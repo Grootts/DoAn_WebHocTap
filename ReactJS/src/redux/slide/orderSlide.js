@@ -56,13 +56,13 @@ export const orderSlide = createSlice({
       }
     },
     removeOrderProduct: (state, action) => {
-      const { idProduct } = action.payload;
+      const { id } = action.payload;
 
       const itemOrder = state?.orderItems?.filter(
-        (item) => item?.product !== idProduct
+        (item) => item?.course !== id
       );
       const itemOrderSeleted = state?.orderItemsSlected?.filter(
-        (item) => item?.product !== idProduct
+        (item) => item?.course !== id
       );
 
       state.orderItems = itemOrder;

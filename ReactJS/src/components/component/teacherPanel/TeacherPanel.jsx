@@ -1,23 +1,27 @@
 import styles from "./TeacherPanel.module.css";
-import axios from "../../../services/axiosInterceptor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as UserServices from "../../../services/UserServices";
+import { useMutationHooks } from "../../../hook/useMutationHook";
 const TeacherPanel = ({ id }) => {
   const [detailTeacher, setDetailTeacher] = useState([]);
-  const dataDetail = async () => {
-    const response = await axios.get(`api/user/get-details/${id}`);
-
-    if (response.data !== undefined) {
-      setDetailTeacher(response.data.data);
-      return console.log(response.data.data);
+  const mutation = useMutationHooks((id) => UserServices.getDetailUser(id));
+  const { data, isLoading, isSuccess } = mutation;
+  useEffect(() => {
+    mutation.mutate(id);
+  }, []);
+  useEffect(() => {
+    if (isSuccess) {
+      setDetailTeacher(data?.data);
     }
-  };
+  }, [isSuccess]);
+  console.log(id);
   return (
     <div className={styles.teacherPanel}>
-      {dataDetail() && (
-        <div className={styles.teacherDetail} key={detailTeacher.id}>
+      {isSuccess && (
+        <div className={styles.teacherDetail} key={detailTeacher?.id}>
           <img src="" />
           <div>
-            <p>Name:{detailTeacher.name}</p>
+            <p>Name:{detailTeacher?.name}</p>
             <p></p>
           </div>
         </div>

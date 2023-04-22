@@ -1,9 +1,13 @@
+import { FaUserGraduate } from "react-icons/fa";
 import styles from "./StatisticalPanel.module.css";
-const StatisticalPanel = ({ title, count }) => {
+const StatisticalPanel = ({ title, count, icon }) => {
   return (
     <div className={styles.statisticalStyles}>
-      <h1>{title}</h1>
-      <h1>{count}</h1>
+      <div className={styles.icon}>{icon}</div>
+      <div className={styles.text}>
+        <h1>{count}</h1>
+        <p>{title}</p>
+      </div>
     </div>
   );
 };

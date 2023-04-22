@@ -3,23 +3,15 @@ import courseModel from "../models/courseModel.js";
 
 class orderController {
   static createOrder = async (req, res) => {
-    const {
-      orderItems,
-      paymentMethod,
-      itemsPrice,
-      totalPrice,
-      user,
-      isPaid,
-      paidAt,
-    } = req.body;
+    const { orderItems, totalPrice, user, isPaid, paidAt } = req.body;
     try {
-      if (!itemsPrice || !totalPrice) {
+      if (!totalPrice) {
         return res.status(200).json({
           status: "ERR",
           message: "The input is required",
         });
       }
-      const promises = orderItems.map(async (order) => {
+      orderItems.map(async (order) => {
         const productData = await courseModel.findOne({
           _id: order.course,
         });
@@ -36,33 +28,20 @@ class orderController {
           };
         }
       });
-      const results = await Promise.all(promises);
-      const newData = results && results.filter((item) => item.id);
-      if (newData.length) {
-        const arrId = [];
-        newData.forEach((item) => {
-          arrId.push(item.id);
-        });
+
+      const createdOrder = await orderModel.create({
+        orderItems,
+
+        totalPrice,
+        user: user,
+        isPaid,
+        paidAt,
+      });
+      if (createdOrder) {
         return res.status(200).json({
-          status: "ERR",
-          message: `San pham voi id: ${arrId.join(",")} khong du hang`,
+          status: "OK",
+          message: "success",
         });
-      } else {
-        const createdOrder = await orderModel.create({
-          orderItems,
-          paymentMethod,
-          itemsPrice,
-          totalPrice,
-          user: user,
-          isPaid,
-          paidAt,
-        });
-        if (createdOrder) {
-          return res.status(200).json({
-            status: "OK",
-            message: "success",
-          });
-        }
       }
     } catch (e) {
       return res.status(404).json({
@@ -128,6 +107,37 @@ class orderController {
         status: "OK",
         message: "SUCESSS",
         data: order,
+      });
+    } catch (e) {
+      // console.log(e)
+      return res.status(404).json({
+        message: e,
+      });
+    }
+  };
+  static getDetailsOneOrder = async (req, res) => {
+    try {
+      const { idUser } = req.body;
+      if (!idUser) {
+        return res.status(200).json({
+          status: "ERR",
+          message: "The userID null",
+        });
+      }
+      const order = await orderModel.findOne({
+        user: idUser,
+      });
+      if (order === null) {
+        return res.status(200).json({
+          status: "ERR",
+          message: "The order is not defined",
+        });
+      }
+
+      return res.status(200).json({
+        status: "OK",
+        message: "SUCESSS",
+        data: order.orderItems,
       });
     } catch (e) {
       // console.log(e)

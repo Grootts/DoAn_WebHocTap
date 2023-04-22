@@ -13,6 +13,9 @@
   justify-content: space-between;
   width: 100%;
 }
+.iconDelete {
+  cursor: pointer;
+}
 .orderItemText {
   height: 150px;
   display: flex;
@@ -36,26 +39,7 @@
   align-items: center;
   gap: 20px;
 }
-.orderPay div {
-  background-color: #3b76ef;
-  border: 1px solid #3b76ef;
-  color: #fff;
-  display: flex;
-  padding: 11px 23px;
-  text-transform: capitalize;
-  line-height: 16px;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 5px;
-  white-space: nowrap;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  flex-direction: row;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
+
 .orderItemAction {
   display: flex;
   flex-direction: row;

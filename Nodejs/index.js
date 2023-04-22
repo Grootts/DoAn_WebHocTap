@@ -6,6 +6,7 @@ import courseRoutes from "./routes/courseRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
 import lessonRoutes from "./routes/lessonRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import PaymentRouter from "./routes/paymentRoutes.js";
 
 import dotenv from "dotenv";
 import cors from "cors";
@@ -39,6 +40,7 @@ app.use("/api/course", courseRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/payment", PaymentRouter);
 app.listen(PORT, () => {
   console.log(`APi is Running on http://localhost:${PORT}`);
 });

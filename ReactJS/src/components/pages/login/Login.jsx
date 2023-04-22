@@ -4,37 +4,44 @@ import { useNavigate, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import { FaHome } from "react-icons/fa";
 import Router from "../../../router/Router";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../../redux/slide/userSlide";
+import { useMutationHooks } from "../../../hook/useMutationHook";
+import * as UserServices from "../../../services/UserServices";
 export const Login = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("api/auth/users/login", input);
-      const checkRole = response.data.role;
+  const mutation = useMutationHooks((data) => UserServices.loginUser(data));
+  const { data, isLoading, isSuccess } = mutation;
 
-      if (response.status === 200) {
-        alert(response.data.message);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("name", response.data.name);
-
-        localStorage.setItem("role", response.data.role);
-
-        console.log(checkRole);
-        if (checkRole === "admin" || checkRole === "teacher") {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
+  useEffect(() => {
+    if (isSuccess) {
+      if (data.role === "admin" || data.role === "teacher") {
+        navigate("/admin");
+      } else {
+        navigate("/");
       }
-    } catch (error) {
-      alert(error.response.data.message);
+      dispatch(
+        updateUser({
+          name: data?.name,
+          email: data?.email,
+          _id: data?.id,
+          isRole: data?.role,
+        })
+      );
+      localStorage.setItem("token", data?.token);
+      localStorage.setItem("name", data?.name);
     }
+  }, [isSuccess]);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    mutation.mutate(input);
   };
-
   return (
     <div className={styles.loginBackground}>
       <div className={styles.loginPanel}>

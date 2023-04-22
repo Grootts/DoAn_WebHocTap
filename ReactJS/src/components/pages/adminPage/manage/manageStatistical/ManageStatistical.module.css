@@ -58,16 +58,6 @@
   text-transform: uppercase;
   border-bottom: 1px solid rgba(209, 209, 209, 0.664) !important;
 }
-.courseBody tr {
-  cursor: pointer;
-}
-.courseBody tr:hover {
-  color: #4d4f5c;
-}
-.img {
-  width: 100px;
-  height: 100px;
-}
 .inputAdd {
   display: grid;
   flex-direction: row;

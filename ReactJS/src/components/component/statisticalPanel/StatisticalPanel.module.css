@@ -7,5 +7,13 @@
   background: #3b76ef;
   min-width: 20vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  flex-basis: 50%;
+}
+
+.text p {
+  font-size: 20px;
+  font-weight: 400;
 }

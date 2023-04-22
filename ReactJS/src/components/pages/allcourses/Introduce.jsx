@@ -1,24 +1,33 @@
 import { useParams } from "react-router-dom";
 import TeacherPanel from "../../component/teacherPanel/TeacherPanel";
 import styles from "./Introduce.module.css";
-
+import * as CourseServices from "../../../services/CourseServices";
+import { useMutationHooks } from "../../../hook/useMutationHook";
 import axios from "../../../services/axiosInterceptor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addOrderProduct } from "../../../redux/slide/orderSlide";
+import React from "react";
+import MenuDetail from "./MenuDetail";
 const Introduce = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [coursesCard, setDataCourse] = useState([]);
-  const dataOneCourse = async () => {
-    const response = await axios.get(`api/course/get-details/${id}`);
+  const mutation = useMutationHooks((data) =>
+    CourseServices.getDetailsCourse(data)
+  );
 
-    if (response.data !== undefined) {
-      const data = response.data.data;
-      setDataCourse(data);
-      return console.log(coursesCard);
+  const { data, isLoading, isSuccess } = mutation;
+  useEffect(() => {
+    mutation.mutate(id);
+  }, []);
+  useEffect(() => {
+    if (isSuccess && data?.status === "OK") {
+      setDataCourse(data?.data);
+      <MenuDetail dataCourse={coursesCard?.name} />;
     }
-  };
+  }, [isSuccess]);
+  console.log(coursesCard);
   const handleAddOrderProduct = () => {
     dispatch(
       addOrderProduct({
@@ -31,23 +40,27 @@ const Introduce = () => {
       })
     );
   };
-
+  if (isLoading) {
+    return <React.Fragment></React.Fragment>;
+  }
   return (
     <div className={styles.introduceStyles}>
-      {dataOneCourse() && (
+      {isSuccess && (
         <div>
-          {
-            <div>
-              <h2>Mô tả khóa học</h2>
-              <p>{coursesCard.description}</p>
-            </div>
-          }
+          <div>
+            <h2>Mô tả khóa học</h2>
+            <p>{coursesCard?.description}</p>
+          </div>
+
           <h2>Giới thiệu giáo viên</h2>
 
-          {coursesCard.createdBy && <TeacherPanel id={coursesCard.createdBy} />}
+          {coursesCard?.createdBy && (
+            <TeacherPanel id={coursesCard?.createdBy} />
+          )}
+
           <div className={styles.introduceButton}>
             <p style={{ textAlign: "center", margin: "20px" }}>
-              {coursesCard.price}đ
+              {coursesCard?.price}đ
             </p>
             <div
               style={{

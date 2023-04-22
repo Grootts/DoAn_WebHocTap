@@ -11,6 +11,7 @@ const AccountInfo = () => {
   const order = useSelector((state) => state.order);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dataLocal = localStorage.getItem("name", 1);
+  const user = useSelector((state) => state.user);
   const handleLogout = () => {
     localStorage.clear();
 
@@ -31,7 +32,11 @@ const AccountInfo = () => {
   return (
     <div className={styles.headerStyles}>
       <Badge count={order?.orderItems?.length}>
-        <FaShoppingCart size={25} onClick={handleShowOrder} />
+        {user?.isRole === "admin" || user?.isRole === "teacher" ? (
+          ""
+        ) : (
+          <FaShoppingCart size={25} onClick={handleShowOrder} />
+        )}
       </Badge>
       <div className={styles.infoContainer}>
         <div className={styles.accountInfo}>

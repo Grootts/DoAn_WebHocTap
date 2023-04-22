@@ -6,6 +6,7 @@ import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
 import { getBase64 } from "../../../../../utils";
 import { WrapperUploadFile } from "./Style";
+import { Link, useNavigate } from "react-router-dom";
 
 const ManageCourse = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +20,7 @@ const ManageCourse = () => {
   });
   const [stateProduct, setStateProduct] = useState(inittial());
   const [coursesCard, setDataCourse] = useState([]);
+  const navigate = useNavigate();
   const handleAddCourse = () => {
     setIsModalOpen(true);
   };
@@ -151,7 +153,7 @@ const ManageCourse = () => {
         <tbody className={styles.courseBody}>
           {coursesCard.map((data) => {
             return (
-              <tr>
+              <tr key={data._id}>
                 <th>{data.name}</th>
                 <th>
                   <img className={styles.img} src={data.image} alt="" />
@@ -169,6 +171,9 @@ const ManageCourse = () => {
                     className={styles.updateIcon}
                     onClick={handleUpdate}
                   />
+                  <div className={styles.addCourse}>
+                    <Link to={`lesson/${data._id}`}> Quản lý bài học</Link>
+                  </div>
                 </th>
               </tr>
             );

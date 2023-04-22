@@ -22,12 +22,6 @@ class userController {
           message: "The user is not defined",
         });
       }
-      if (checkUser.role === "User") {
-        return res.status(200).json({
-          status: "ERR",
-          message: "no permission",
-        });
-      }
       const updatedUser = await authModel.findByIdAndUpdate(id, data, {
         new: true,
       });
@@ -93,12 +87,6 @@ class userController {
           message: "The userId is required",
         });
       }
-      if (checkUser.role === "User") {
-        return res.status(200).json({
-          status: "ERR",
-          message: "no permission",
-        });
-      }
       const checkUser = await authModel.findOne({
         _id: id,
       });
@@ -113,7 +101,7 @@ class userController {
       if (checkUser.role === "User") {
         return res.status(200).json({
           status: "ERR",
-          message: "The user is not defined",
+          message: "no permission",
         });
       }
       await authModel.findByIdAndDelete(id);

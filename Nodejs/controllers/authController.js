@@ -74,6 +74,8 @@ class authController {
                 token,
                 name: isUser.name,
                 role: isUser.role,
+                id: isUser._id,
+                email: isUser.email,
               });
             } else {
               return res.status(400).json({ message: "Invalid Credentials!" });

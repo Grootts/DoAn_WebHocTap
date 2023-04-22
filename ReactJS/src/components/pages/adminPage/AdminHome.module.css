@@ -10,7 +10,7 @@
   height: 100%;
   transition: 0.5s;
   margin: 30px;
-  overflow: hidden;
+  overflow-x: hidden;
   padding: 20px;
   background: #fff;
   box-shadow: 5px 5px 5px 5px rgb(216, 233, 239);

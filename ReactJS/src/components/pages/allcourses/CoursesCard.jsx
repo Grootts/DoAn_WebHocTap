@@ -2,26 +2,38 @@ import React, { useEffect, useState } from "react";
 import styles from "./Courses.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../services/axiosInterceptor";
+import { useMutationHooks } from "../../../hook/useMutationHook";
+import * as CourseServices from "../../../services/CourseServices";
 const CoursesCard = () => {
   const navigate = useNavigate();
   const [coursesCard, setDataCourse] = useState([]);
-  const dataC = async () => {
-    const response = await axios.get("api/course/get-all");
+  useEffect(() => {
+    mutation.mutate();
+  }, []);
+  const mutation = useMutationHooks((data) => CourseServices.getAllCourse());
 
-    if (response.data !== undefined) {
-      setDataCourse(response.data.data);
-      return console.log(response.data.data);
+  const { data, isLoading, isSuccess, isError } = mutation;
+  useEffect(() => {
+    if (isSuccess && data?.status === "OK") {
+      setDataCourse(data?.data);
     }
-  };
+    if (isError) {
+      alert("error call api");
+    }
+  }, [isSuccess]);
+
+  console.log(data);
+  if (isLoading) {
+    return <React.Fragment></React.Fragment>;
+  }
   const handleCourseDetail = (_id) => {
     navigate(`/courseDetail/${_id}`);
   };
-
   return (
     <>
       <div className={styles.coursesCardStyles}>
-        {dataC() &&
-          coursesCard.map((couser) => {
+        {isSuccess &&
+          coursesCard?.map((couser) => {
             return (
               <div className={styles.coursesCard}>
                 <div key={couser._id}>
