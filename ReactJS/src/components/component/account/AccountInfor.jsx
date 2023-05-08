@@ -1,4 +1,8 @@
-import { IoMdArrowDropdown } from "react-icons/io";
+import {
+  IoMdArrowDropdown,
+  IoMdNotifications,
+  IoMdNotificationsOutline,
+} from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./AccountInfor.module.css";
@@ -6,10 +10,13 @@ import Modal from "antd/es/modal/Modal";
 import { useState } from "react";
 import { Badge } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import CourseRegisterPanel from "../courseRegisterPanel/CourseRegisterPanel";
 const AccountInfo = () => {
   const navigate = useNavigate();
   const order = useSelector((state) => state.order);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenCourse, setIsModalOpenCourse] = useState(false);
+  const [showNotify, setShowNotify] = useState(false);
   const dataLocal = localStorage.getItem("name", 1);
   const user = useSelector((state) => state.user);
   const handleLogout = () => {
@@ -17,11 +24,20 @@ const AccountInfo = () => {
 
     navigate("/login");
   };
+  const handleShowNotification = () => {
+    setShowNotify(!showNotify);
+  };
   const handleOpenInfo = () => {
     setIsModalOpen(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+  const handleOpenInfoCourse = () => {
+    setIsModalOpenCourse(true);
+  };
+  const handleCancelCourse = () => {
+    setIsModalOpenCourse(false);
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -31,6 +47,15 @@ const AccountInfo = () => {
   };
   return (
     <div className={styles.headerStyles}>
+      <Badge count={5}>
+        <IoMdNotifications size={25} onClick={handleShowNotification} />
+      </Badge>
+      {showNotify && (
+        <div className={styles.notifyPanel}>
+          <div className={styles.headNotify}> Thông báo mới</div>
+          <div className={styles.bodyNotify}></div>
+        </div>
+      )}
       <Badge count={order?.orderItems?.length}>
         {user?.isRole === "admin" || user?.isRole === "teacher" ? (
           ""
@@ -44,6 +69,7 @@ const AccountInfo = () => {
           <div>{dataLocal}</div>
           <IoMdArrowDropdown />
         </div>
+
         <Modal
           title="Thông tin cá nhân"
           open={isModalOpen}
@@ -69,12 +95,29 @@ const AccountInfo = () => {
             </div>
           </form>
         </Modal>
+        <Modal
+          title="Các khóa học đã đăng ký"
+          open={isModalOpenCourse}
+          onOk={handleCancelCourse}
+          onCancel={handleCancelCourse}
+        >
+          <form>
+            <div className={styles.showInfoPanel}>
+              <CourseRegisterPanel />
+            </div>
+          </form>
+        </Modal>
         <div className={styles.infoPanel}>
           <div className={styles.infoText}>
             <div className={styles.infoTextTitle} onClick={handleOpenInfo}>
-              Thông tin người dùng
+              Thông tin cá nhân
             </div>
-            <div className={styles.infoTextTitle}>Danh sách lớp học </div>
+            <div
+              className={styles.infoTextTitle}
+              onClick={handleOpenInfoCourse}
+            >
+              Danh sách lớp học{" "}
+            </div>
             <div className={styles.infoTextLogout} onClick={handleLogout}>
               Đăng xuất
             </div>

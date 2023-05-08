@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { addOrderProduct } from "../../../redux/slide/orderSlide";
 import React from "react";
 import MenuDetail from "./MenuDetail";
+import { convertPrice } from "../../../utils";
 const Introduce = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -59,9 +60,7 @@ const Introduce = () => {
           )}
 
           <div className={styles.introduceButton}>
-            <p style={{ textAlign: "center", margin: "20px" }}>
-              {coursesCard?.price}đ
-            </p>
+            <p style={{ textAlign: "center", margin: "20px" }}></p>
             <div
               style={{
                 marginBottom: "10px",
@@ -71,8 +70,9 @@ const Introduce = () => {
                 justifyContent: "center",
               }}
             >
-              <button onClick={handleAddOrderProduct}>Mua ngay</button>
-              <button>Thêm vào giỏ hàng</button>
+              <button onClick={handleAddOrderProduct}>
+                {convertPrice(coursesCard?.price)}
+              </button>
             </div>
           </div>
         </div>

@@ -3,9 +3,10 @@ import courseModel from "../models/courseModel.js";
 
 class orderController {
   static createOrder = async (req, res) => {
-    const { orderItems, totalPrice, user, isPaid, paidAt } = req.body;
+    const { orderItems, totalPrice, userId, userEmail, isPaid, paidAt } =
+      req.body;
     try {
-      if (!totalPrice) {
+      if ((!totalPrice, !userId, !userEmail)) {
         return res.status(200).json({
           status: "ERR",
           message: "The input is required",
@@ -31,9 +32,9 @@ class orderController {
 
       const createdOrder = await orderModel.create({
         orderItems,
-
         totalPrice,
-        user: user,
+        userId: userId,
+        userEmail: userEmail,
         isPaid,
         paidAt,
       });

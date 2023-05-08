@@ -75,16 +75,6 @@ const ManageLesson = () => {
               onChange={handleOnchange}
             />
           </div>
-          <div className={styles.inputAdd}>
-            <p>File đính kèm:</p>
-            <input
-              placeholder="Enter file"
-              type="text"
-              name="file"
-              value={stateLesson.file}
-              onChange={handleOnchange}
-            />
-          </div>
         </form>
       </Modal>
       <Lesson />

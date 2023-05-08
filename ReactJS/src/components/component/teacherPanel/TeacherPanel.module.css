@@ -1,22 +1,32 @@
-.teacherPanel{
-    display: flex;
-flex-direction: column;
-
-
+.teacherPanel {
+  display: flex;
+  flex-direction: column;
 }
-.teacherDetail{
-    margin: 30px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    border: 1px  solid black;
-    box-shadow: 2px 5px 4px rgba(194, 189, 189, 0.89);
-    border-radius: 10px;
+.teacherDetail {
+  margin: 30px;
+  padding: 10px;
+  display: flex;
+
+  border: 1px solid black;
+  box-shadow: 2px 5px 4px rgba(194, 189, 189, 0.89);
+  border-radius: 10px;
+  height: 110px;
 }
-.teacherPanel img{
-    height: 100px;
-    width: 100px;
-    background-color: aquamarine;
-    border-radius: 50px;
-    margin-right: 10px;
+.teacherPanel img {
+  height: 100px;
+  width: 100px;
+  background-color: aquamarine;
+  border-radius: 50px;
+  margin-right: 10px;
+}
+.textDetail {
+  text-overflow: clip;
+
+  overflow: hidden;
+  word-wrap: break-word;
+  writing-mode: horizontal-tb;
+  display: block;
+}
+.teacherDetail div {
+  width: 840px;
 }

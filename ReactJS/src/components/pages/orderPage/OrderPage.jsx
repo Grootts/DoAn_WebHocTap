@@ -2,16 +2,21 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./OrderPage.module.css";
 import axios from "../../../services/axiosInterceptor";
 import { MdDelete } from "react-icons/md";
-import { removeOrderProduct } from "../../../redux/slide/orderSlide";
+import {
+  removeAllOrderProduct,
+  removeOrderProduct,
+} from "../../../redux/slide/orderSlide";
 import { useEffect, useMemo, useState } from "react";
 import { convertPrice } from "../../../utils";
 import { PayPalButton } from "react-paypal-button-v2";
 import * as PaymentService from "../../../services/PaymentServices";
+import { useNavigate } from "react-router-dom";
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
   const [sdkReady, setSdkReady] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   console.log(order);
   console.log(user);
   const handleDeleteCourse = (id) => {
@@ -28,11 +33,14 @@ const OrderPage = () => {
       const res = await axios.post("api/order/create", {
         orderItems: order?.orderItems,
         totalPrice: priceMemo,
-        user: user?.id,
+        userId: user?.id,
+        userEmail: user?.email,
         isPaid: true,
         paidAt: details.update_time,
       });
       if (res.status === 200) {
+        dispatch(removeAllOrderProduct());
+        navigate("/courses");
         alert("Tạo hóa đơn thành công");
       }
     } catch (error) {
@@ -52,7 +60,7 @@ const OrderPage = () => {
   };
 
   useEffect(() => {
-    if (!window.paypal) {
+    if (window.paypal) {
       addPaypalScript();
     } else {
       setSdkReady(true);
@@ -94,7 +102,7 @@ const OrderPage = () => {
 
         <div className={styles.orderPay}>
           <p>Tổng:{convertPrice(priceMemo)}</p>
-          {sdkReady && (
+          {
             <div>
               <PayPalButton
                 amount={Math.round(priceMemo / 30000)}
@@ -104,7 +112,7 @@ const OrderPage = () => {
                 }}
               />
             </div>
-          )}
+          }
         </div>
       </div>
     </div>

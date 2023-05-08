@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../../redux/slide/userSlide";
 import { useMutationHooks } from "../../../hook/useMutationHook";
 import * as UserServices from "../../../services/UserServices";
+import { isError } from "@tanstack/react-query";
 export const Login = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -19,29 +20,40 @@ export const Login = () => {
   const mutation = useMutationHooks((data) => UserServices.loginUser(data));
   const { data, isLoading, isSuccess } = mutation;
 
-  useEffect(() => {
-    if (isSuccess) {
-      if (data.role === "admin" || data.role === "teacher") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
-      dispatch(
-        updateUser({
-          name: data?.name,
-          email: data?.email,
-          _id: data?.id,
-          isRole: data?.role,
-        })
-      );
-      localStorage.setItem("token", data?.token);
-      localStorage.setItem("name", data?.name);
-    }
-  }, [isSuccess]);
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    mutation.mutate(input);
+    try {
+      const response = await axios.post("api/auth/users/login", input);
+      const checkRole = response.data.role;
+
+      if (response.status === 200) {
+        alert(response.data.message);
+
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("name", response.data.name);
+
+        localStorage.setItem("role", response.data.role);
+
+        console.log(checkRole);
+        if (checkRole === "admin" || checkRole === "teacher") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+        dispatch(
+          updateUser({
+            name: response?.data.name,
+            email: response?.data.email,
+            _id: response?.data.id,
+            isRole: response?.data.role,
+          })
+        );
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
+
   return (
     <div className={styles.loginBackground}>
       <div className={styles.loginPanel}>

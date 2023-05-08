@@ -5,7 +5,8 @@ const initialState = {
   orderItemsSlected: [],
   itemsPrice: 0,
   totalPrice: 0,
-  user: "",
+  userId: "",
+  userEmail: "",
   isPaid: false,
   paidAt: "",
   isSucessOrder: false,
@@ -69,16 +70,8 @@ export const orderSlide = createSlice({
       state.orderItemsSlected = itemOrderSeleted;
     },
     removeAllOrderProduct: (state, action) => {
-      const { listChecked } = action.payload;
-
-      const itemOrders = state?.orderItems?.filter(
-        (item) => !listChecked.includes(item.product)
-      );
-      const itemOrdersSelected = state?.orderItems?.filter(
-        (item) => !listChecked.includes(item.product)
-      );
+      const itemOrders = [];
       state.orderItems = itemOrders;
-      state.orderItemsSlected = itemOrdersSelected;
     },
     selectedOrder: (state, action) => {
       const { listChecked } = action.payload;

@@ -1,0 +1,36 @@
+.startLessonPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 370px;
+  user-select: none;
+  background-image: url("../../../../../public/pexels-daniel-reche-3616959.jpg");
+}
+.startLessonPanelAdmin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  user-select: none;
+  background-image: url("../../../../../public/pexels-lumn-351961.jpg");
+}
+.startLessonCode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.startLessonCode input {
+  border-radius: 6px;
+  border: none;
+  height: 30px;
+  width: 300px;
+  user-select: none;
+}
+.startLessonCode button {
+}

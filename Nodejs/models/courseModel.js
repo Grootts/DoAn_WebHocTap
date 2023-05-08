@@ -7,6 +7,7 @@ const courseSchema = new mongoose.Schema(
     type: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String },
+    room: { type: String },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

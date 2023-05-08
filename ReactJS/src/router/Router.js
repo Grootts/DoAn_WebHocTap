@@ -23,6 +23,10 @@ import Lesson from "../components/pages/allcourses/lesson/Lesson";
 import OrderPage from "../components/pages/orderPage/OrderPage";
 import ManageLesson from "../components/pages/adminPage/manage/manageLesson/ManageLesson";
 import { useSelector } from "react-redux";
+import StartLesson from "../components/pages/allcourses/startLesson/StartLesson";
+import Room from "../components/pages/allcourses/startLesson/room/Room";
+import StartLessonStudent from "../components/pages/allcourses/startLesson/StartLessonStudent";
+
 const Router = () => {
   const data = localStorage.getItem("role", 1);
   const user = useSelector((state) => state.user);
@@ -37,7 +41,10 @@ const Router = () => {
         <Route path="courseDetail/:id" element={<CourseDetail />}>
           <Route index element={<Introduce />} />
           <Route path="lesson" element={<Lesson />} />
+          <Route path="call" element={<StartLessonStudent />} />
+          <Route path="call/room/:roomID" element={<Room />} />
         </Route>
+
         <Route path="order" element={<OrderPage />} />
         <Route path="search" element={<Search />} />
         <Route path="profile" element={<ProfilePage />} />
@@ -58,14 +65,15 @@ const Router = () => {
         <Route path="manage-course" element={<ManageCourse />} />
 
         <Route path="manage-course/lesson/:id" element={<ManageLesson />} />
+        <Route path="manage-course/call/:id" element={<StartLesson />} />
+        <Route path="manage-course/call/:id/room/:roomID" element={<Room />} />
         <Route path="manage-statistical" element={<ManageStatistical />} />
       </Route>
     </Routes>
   );
   return (
     <div>
-      {(user?.isRole === "student" || user?.isRole === "null") &&
-        publicRouter()}
+      {(user?.isRole === "student" || user?.isRole === "") && publicRouter()}
       {(user?.isRole === "admin" || user?.isRole === "teacher") &&
         privateRouter()}
     </div>

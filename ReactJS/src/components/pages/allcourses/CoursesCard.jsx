@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../../services/axiosInterceptor";
 import { useMutationHooks } from "../../../hook/useMutationHook";
 import * as CourseServices from "../../../services/CourseServices";
+import { convertPrice } from "../../../utils";
 const CoursesCard = () => {
   const navigate = useNavigate();
   const [coursesCard, setDataCourse] = useState([]);
@@ -31,6 +32,7 @@ const CoursesCard = () => {
   };
   return (
     <>
+      {/* <p className={styles.textTitle}>Tất cả các lớp học</p> */}
       <div className={styles.coursesCardStyles}>
         {isSuccess &&
           coursesCard?.map((couser) => {
@@ -46,7 +48,7 @@ const CoursesCard = () => {
                 </div>
                 <div className={styles.coursesCardText}>
                   <h3>{couser.name}</h3>
-                  <h4>{couser.price} </h4>
+                  <h4>{convertPrice(couser.price)} </h4>
                 </div>
               </div>
             );

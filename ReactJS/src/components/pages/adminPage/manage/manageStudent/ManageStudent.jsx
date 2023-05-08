@@ -5,6 +5,8 @@ import { Modal } from "antd";
 import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
 import { Button, Drawer } from "antd";
+import { useMutationHooks } from "../../../../../hook/useMutationHook";
+import * as UserServices from "../../../../../services/UserServices";
 const ManageStudent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coursesCard, setDataCourse] = useState([]);
@@ -25,19 +27,19 @@ const ManageStudent = () => {
   const handleAddCourse = () => {
     setIsModalOpen(true);
   };
+  const mutation = useMutationHooks((data) => UserServices.getAllUser());
+  const { data, isSuccess, isLoading } = mutation;
   useEffect(() => {
-    async function dataStudent() {
-      const response = await axios.get("api/user/get-all");
-
-      const data =
-        response.data.data.filter((element) =>
-          element.role.includes("student")
-        ) ?? [];
-      setDataCourse(data);
-      return console.log(response.data.data);
-    }
-    dataStudent();
+    mutation.mutate();
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const dataAllStudent =
+        data?.data.filter((element) => element.role.includes("student")) ?? [];
+      setDataCourse(dataAllStudent);
+    }
+  }, [isSuccess]);
   const handleOk = async (e) => {
     e.preventDefault();
 
@@ -48,6 +50,7 @@ const ManageStudent = () => {
       );
       if (response.status === 201) {
         alert(response.data.message);
+        window.location.reload();
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -76,7 +79,6 @@ const ManageStudent = () => {
     try {
       const response = await axios.get(`api/user/get-details/${id}`);
       setStateProductDetail(response.data.data);
-      console.log(stateProductDetail);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -87,6 +89,7 @@ const ManageStudent = () => {
 
       if (response.status === 200) {
         alert(response.data.message);
+        window.location.reload();
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -103,6 +106,7 @@ const ManageStudent = () => {
 
       if (response.status === 200) {
         alert("cập nhật thành công");
+        window.location.reload();
         return setOpen(false);
       }
     } catch (error) {

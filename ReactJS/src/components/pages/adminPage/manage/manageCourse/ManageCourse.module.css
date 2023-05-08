@@ -57,6 +57,7 @@
   white-space: nowrap;
   text-transform: uppercase;
   border-bottom: 1px solid rgba(209, 209, 209, 0.664) !important;
+  gap: 10px;
 }
 .courseBody tr {
   cursor: pointer;

@@ -7,7 +7,8 @@ import { MdDelete } from "react-icons/md";
 import { getBase64 } from "../../../../../utils";
 import { WrapperUploadFile } from "./Style";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useMutationHooks } from "../../../../../hook/useMutationHook";
+import * as CourseServices from "../../../../../services/CourseServices";
 const ManageCourse = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inittial = () => ({
@@ -30,20 +31,25 @@ const ManageCourse = () => {
 
       if (response.status === 200) {
         alert(response.data.message);
+        window.location.reload();
       }
     } catch (error) {
       alert(error.response.data.message);
     }
   };
+  const mutation = useMutationHooks((data) => CourseServices.getAllCourse());
+  const { data, isSuccess, isLoading } = mutation;
   useEffect(() => {
-    async function dataStudent() {
-      const response = await axios.get("api/course/get-all");
-
-      const data = response.data.data;
-      setDataCourse(data);
-    }
-    dataStudent();
+    mutation.mutate();
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const dataAllCourse = data?.data ?? [];
+      setDataCourse(dataAllCourse);
+    }
+  }, [isSuccess]);
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -173,6 +179,9 @@ const ManageCourse = () => {
                   />
                   <div className={styles.addCourse}>
                     <Link to={`lesson/${data._id}`}> Quản lý bài học</Link>
+                  </div>
+                  <div className={styles.addCourse}>
+                    <Link to={`call/${data._id}`}> Vào học</Link>
                   </div>
                 </th>
               </tr>
