@@ -1,7 +1,0 @@
-- thêm lời giới thiệu cho giáo viên,
-- Danh sách lớp học đã đăng ký,
-- Thông báo,
-- Tìm kiếm
-- Ràng buộc
-- Show đúng formxxx
-- Xóa, sửa lesson
