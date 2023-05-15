@@ -34,7 +34,7 @@ const ChartManage = () => {
         label: "Doanh thu",
         data: [],
         borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(25, 90, 13, 0.5)",
+        backgroundColor: "#ff0000",
       },
     ],
     borderWidth: 1,
@@ -132,7 +132,7 @@ const ChartManage = () => {
             label: "Dataset ID",
             data: dataSet1,
             borderColor: "rgb(255, 99, 132)",
-            backgroundColor: "rgba(99, 132, 0.5)",
+            backgroundColor: "#ff0000",
           },
         ],
       });
@@ -144,7 +144,7 @@ const ChartManage = () => {
   }, []);
 
   return (
-    <div style={{ width: "80%", height: "80%" }}>
+    <div style={{ width: "900px", height: "80%" }}>
       {console.log("dataaaaaaaa", dataApi)}
       <Bar data={dataApi} options={updateMonth} />
 

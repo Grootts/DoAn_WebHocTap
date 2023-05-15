@@ -24,7 +24,7 @@
 .addCourse {
   background-color: #3b76ef;
   border: 1px solid #3b76ef;
-  color: #fff;
+  color: white;
   display: flex;
   padding: 11px 23px;
   text-transform: capitalize;
@@ -40,11 +40,15 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-top: 5px;
 }
 .addCourse:hover {
-  background-color: #fff;
-  color: black;
+  background-color: #9fa2ed;
 }
+.addCourse a {
+  color: white;
+}
+
 .courseBody th {
   border-bottom: 0 solid transparent;
   background-color: #fff;

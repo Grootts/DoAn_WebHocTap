@@ -28,6 +28,7 @@ const OrderPage = () => {
     }, 0);
     return result;
   }, [order]);
+
   const onSuccessPaypal = async (details, data) => {
     try {
       const res = await axios.post("api/order/create", {

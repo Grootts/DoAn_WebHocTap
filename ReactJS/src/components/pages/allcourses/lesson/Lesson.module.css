@@ -2,7 +2,7 @@
   height: 100%;
   margin: 0 auto;
   padding: 0;
-  width: 1024px;
+  width: 80%;
   padding: 30px;
   gap: 30px;
 }
@@ -12,7 +12,76 @@
   justify-content: center;
   flex-direction: column;
 }
+.addCourse {
+  background-color: #3b76ef;
+  border: 1px solid #3b76ef;
+  color: white;
+  display: flex;
+  padding: 11px 23px;
+  text-transform: capitalize;
+  line-height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  white-space: nowrap;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 5px;
+}
+.addCourse:hover {
+  background-color: #9fa2ed;
+}
+.addCourse a {
+  color: white;
+}
+.updateCourse {
+  background-color: #3b76ef;
+  border: 1px solid #3b76ef;
+  color: white;
+  display: flex;
+  padding: 11px 23px;
+  text-transform: capitalize;
+  line-height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  white-space: nowrap;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 1px;
+  width: 100px;
+}
+.inputAdd {
+  display: grid;
+  flex-direction: row;
+  grid-template-columns: 200px 200px;
 
+  padding: 10px;
+  align-items: center;
+}
+
+.inputAdd input {
+  border-radius: 5px;
+  border: 0.5px solid black;
+  min-height: 25px;
+  min-width: 100px;
+}
+.inputAdd textarea {
+  border-radius: 5px;
+  border: 0.5px solid black;
+  min-height: 85px;
+  min-width: 70px;
+}
 .tableStyles table {
   border-collapse: collapse;
 }

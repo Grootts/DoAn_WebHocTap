@@ -25,6 +25,12 @@ class courseController {
       price,
       description,
       createdBy: createdBy,
+      userFollow: [
+        {
+          userId: "",
+          userName: "",
+        },
+      ],
     });
     if (newCourse) {
       return res.status(200).json({
@@ -76,6 +82,30 @@ class courseController {
       });
     }
   };
+  static updateUserFollow = async (req, res) => {
+    const courseId = req.params.id;
+    const { userId, userName } = req.body;
+
+    const checkCourse = await Course.findOne({ _id: courseId });
+    if (checkCourse) {
+      var addUser = [];
+      for (let i = 0; i < checkCourse.userFollow?.length; i++) {
+        addUser.push(checkCourse.userFollow[i]);
+      }
+      addUser.push({ userId: userId, userName: userName });
+
+      const updateCourse = await Course.findOneAndUpdate(
+        { _id: courseId },
+        { $set: { userFollow: addUser } },
+        { returnDocument: "after" }
+      );
+      res.status(200).json({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateCourse,
+      });
+    }
+  };
   static getAllCourse = async (req, res) => {
     try {
       const { limit, page, sort, filter } = req.query;
@@ -85,10 +115,8 @@ class courseController {
         const label = filter[0];
         const allObjectFilter = await Course.find({
           [label]: { $regex: filter[1] },
-        })
-          .limit(limit)
-          .skip(page * limit)
-          .sort({ createdAt: -1, updatedAt: -1 });
+        });
+
         return res.status(200).json({
           status: "OK",
           message: "Success",

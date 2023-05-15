@@ -159,7 +159,7 @@ const ManageTeacher = () => {
       <p>Quản lý giáo viên</p>
       {open && (
         <Drawer
-          title="Basic Drawer"
+          title="Update"
           placement="right"
           onClose={onClose}
           open={open}

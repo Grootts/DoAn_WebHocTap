@@ -115,6 +115,30 @@ class userController {
       });
     }
   };
+  static updateUserFollow = async (req, res) => {
+    const userId = req.params.id;
+    const { courseId } = req.body;
+
+    const checkUser = await authModel.findOne({ _id: userId });
+    if (checkUser) {
+      var addCourse = [];
+      for (let i = 0; i < checkUser.courseFollow?.length; i++) {
+        addCourse.push(checkUser.courseFollow[i]);
+      }
+      addCourse.push({ courseId: courseId });
+
+      const updateUser = await authModel.findOneAndUpdate(
+        { _id: userId },
+        { $set: { courseFollow: addCourse } },
+        { returnDocument: "after" }
+      );
+      res.status(200).json({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateUser,
+      });
+    }
+  };
 }
 
 export default userController;

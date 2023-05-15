@@ -10,7 +10,7 @@ const Head = () => {
   return (
     <div className={styles.headerLayout}>
       <Menu />
-      <Search />
+
       {data ? <AccountInfo /> : <Account />}
     </div>
   );

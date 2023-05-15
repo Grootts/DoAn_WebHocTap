@@ -9,6 +9,7 @@
   background-color: #fff;
   box-shadow: 2px 5px 5px rgba(187, 188, 189, 0.749);
   border-radius: 10px;
+  height: 100%;
 }
 .menuItem {
   height: 100%;

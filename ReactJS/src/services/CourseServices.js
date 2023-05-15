@@ -15,7 +15,12 @@ export const deleteCourse = async (id) => {
   const res = await axios.delete(`api/course/delete/${id}`);
   return res.data;
 };
-export const getAllCourse = async () => {
-  const res = await axios.get(`api/course/get-all`);
+export const getAllCourse = async (search) => {
+  let res = {};
+  if (search?.length > 0) {
+    res = await axios.get(`api/course/get-all?filter=name&filter=${search}`);
+  } else {
+    res = await axios.get(`api/course/get-all`);
+  }
   return res.data;
 };

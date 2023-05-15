@@ -60,14 +60,19 @@ const Router = () => {
     <Routes>
       <Route path="/admin" element={<AdminHome />}>
         <Route path="/admin" element={<StatisticalHome />} />
-        <Route path="manage-student" element={<ManageStudent />} />
-        <Route path="manage-teacher" element={<ManageTeacher />} />
+        {user?.isRole === "admin" && (
+          <Route path="manage-student" element={<ManageStudent />} />
+        )}
+        {user?.isRole === "admin" && (
+          <Route path="manage-teacher" element={<ManageTeacher />} />
+        )}
+        {user?.isRole === "admin" && (
+          <Route path="manage-statistical" element={<ManageStatistical />} />
+        )}
         <Route path="manage-course" element={<ManageCourse />} />
-
         <Route path="manage-course/lesson/:id" element={<ManageLesson />} />
         <Route path="manage-course/call/:id" element={<StartLesson />} />
         <Route path="manage-course/call/:id/room/:roomID" element={<Room />} />
-        <Route path="manage-statistical" element={<ManageStatistical />} />
       </Route>
     </Routes>
   );

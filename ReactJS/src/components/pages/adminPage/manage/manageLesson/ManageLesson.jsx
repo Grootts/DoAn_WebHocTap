@@ -3,14 +3,14 @@ import Lesson from "../../../allcourses/lesson/Lesson";
 import axios from "../../../../../services/axiosInterceptor";
 import styles from "./ManageLesson.module.css";
 import { useState } from "react";
-import { Modal } from "antd";
+import { Drawer, Modal } from "antd";
 const ManageLesson = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [stateLesson, setStateLesson] = useState({
     nameLesson: "",
     description: "",
-    file: "",
   });
+
   const { id } = useParams();
   const handleAddLesson = () => {
     setIsModalOpen(true);
@@ -35,7 +35,7 @@ const ManageLesson = () => {
       );
       if (response.status === 200) {
         alert("Thêm khóa học thành công");
-        setStateLesson({ nameLesson: "", description: "", file: "" });
+        setStateLesson({ nameLesson: "", description: "" });
         return setIsModalOpen(false);
       }
     } catch (error) {
@@ -45,10 +45,11 @@ const ManageLesson = () => {
   return (
     <div className={styles.lessonStyles}>
       <div className={styles.addCourse} onClick={handleAddLesson}>
-        Thêm khóa học
+        Thêm bài học
       </div>
+
       <Modal
-        title="Thêm học sinh"
+        title="Thêm bài học"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}

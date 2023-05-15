@@ -3,6 +3,8 @@ import lessonController from "../controllers/lessonController.js";
 const router = express.Router();
 router.post("/create", lessonController.createLesson);
 router.put("/add-lesson/:id", lessonController.addLesson);
+router.put("/update/:id", lessonController.updateLesson);
+router.put("/delete/:id", lessonController.deleteLesson);
 router.get("/get-all", lessonController.getAllLesson);
 router.get("/get-details/:id", lessonController.getDetailsLesson);
 export default router;

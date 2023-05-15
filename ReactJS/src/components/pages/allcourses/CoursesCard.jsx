@@ -5,13 +5,23 @@ import axios from "../../../services/axiosInterceptor";
 import { useMutationHooks } from "../../../hook/useMutationHook";
 import * as CourseServices from "../../../services/CourseServices";
 import { convertPrice } from "../../../utils";
+import { IoMdSearch } from "react-icons/io";
+import { useDebounce } from "../../../hook/useDebounce";
+import Loading from "../../component/loading/Loading";
 const CoursesCard = () => {
   const navigate = useNavigate();
   const [coursesCard, setDataCourse] = useState([]);
+  const [search, setSearch] = useState("");
+  const [time, setTime] = useState(2000);
+  const searchDebounce = useDebounce(search, time);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    mutation.mutate();
-  }, []);
-  const mutation = useMutationHooks((data) => CourseServices.getAllCourse());
+    mutation.mutate(search);
+  }, [searchDebounce]);
+  const mutation = useMutationHooks((data) =>
+    CourseServices.getAllCourse(search)
+  );
 
   const { data, isLoading, isSuccess, isError } = mutation;
   useEffect(() => {
@@ -22,17 +32,42 @@ const CoursesCard = () => {
       alert("error call api");
     }
   }, [isSuccess]);
+  const onSearch = (e) => {
+    setSearch(e.target.value);
+    setTime(2000);
+    console.log(search);
+  };
+  const handleSearch = async () => {
+    return setTime(0);
+  };
 
-  console.log(data);
-  if (isLoading) {
-    return <React.Fragment></React.Fragment>;
-  }
   const handleCourseDetail = (_id) => {
     navigate(`/courseDetail/${_id}`);
   };
   return (
     <>
       {/* <p className={styles.textTitle}>Tất cả các lớp học</p> */}
+
+      <div className={styles.newletter}>
+        <div className={styles.right}>
+          <div>
+            <input
+              type="text"
+              placeholder="Tìm kiếm khóa học ..."
+              onChange={onSearch}
+              value={search}
+            />
+          </div>
+          <div className={styles.buttonSearch} onClick={handleSearch}>
+            <IoMdSearch className={styles.icon} size={25} />
+            Search
+          </div>
+        </div>
+      </div>
+      <div className={styles.isLoading}>
+        {" "}
+        <Loading isLoading={isLoading}></Loading>
+      </div>
       <div className={styles.coursesCardStyles}>
         {isSuccess &&
           coursesCard?.map((couser) => {

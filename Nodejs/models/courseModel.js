@@ -13,6 +13,16 @@ const courseSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    userFollow: [
+      {
+        userId: {
+          type: String,
+        },
+        userName: {
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

@@ -81,7 +81,7 @@ class lessonController {
   };
   static addLesson = async (req, res) => {
     const { id } = req.params;
-    const { nameLesson, file, description } = req.body;
+    const { nameLesson, description } = req.body;
 
     const newLesson = await Lesson.findOne({ course_id: id });
     if (newLesson) {
@@ -106,7 +106,6 @@ class lessonController {
         lesson: [
           {
             nameLesson,
-            file,
             description,
           },
         ],
@@ -118,6 +117,32 @@ class lessonController {
         data: createLesson,
       });
     }
+  };
+  static updateLesson = async (req, res) => {
+    const { id } = req.params;
+    const updateLesson = await Lesson.findOneAndUpdate(
+      { "lesson._id": id },
+      { $set: { "lesson.$": req.body } },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "OK",
+      message: "SUCCESS",
+      data: updateLesson,
+    });
+  };
+  static deleteLesson = async (req, res) => {
+    const { id } = req.params;
+    const updateLesson = await Lesson.findOneAndUpdate(
+      { "lesson._id": id },
+      { $set: { "lesson.$": [] } },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "OK",
+      message: "SUCCESS",
+      data: updateLesson,
+    });
   };
 }
 export default lessonController;
