@@ -14,14 +14,24 @@ export const NewPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const res = await axios.post(
-      `/api/auth/forget-password/${id}/${token}`,
-      input
-    );
-    if (res.status === 200) {
-      alert("password changed Successfully");
-      navigate("/login");
+    if (
+      input?.newPassword === input?.confirmPassword &&
+      input?.confirmPassword.length > 6
+    ) {
+      const res = await axios.post(
+        `/api/auth/forget-password/${id}/${token}`,
+        input
+      );
+      if (res.status === 200) {
+        alert("password changed Successfully");
+        navigate("/login");
+      }
+    }
+    if (input?.newPassword !== input?.confirmPassword) {
+      alert("Mật khẩu không giống nhau");
+    }
+    if (input?.confirmPassword.length < 6) {
+      alert("Mật khẩu phải lớn hơn 6 kí tự");
     }
   };
   return (
@@ -46,12 +56,13 @@ export const NewPassword = () => {
                 [e.target.name]: e.target.value,
               })
             }
+            required
           />
           <br />
           <input
             type="password"
             id=""
-            placeholder="Enter Confirm Email"
+            placeholder="Enter Confirm Password"
             name="confirmPassword"
             value={input.confirmPassword}
             onChange={(e) =>
@@ -60,9 +71,10 @@ export const NewPassword = () => {
                 [e.target.name]: e.target.value,
               })
             }
+            required
           />
           <br />
-          <button>Ok</button>
+          <button>Xác nhận</button>
         </form>
       </div>
     </div>

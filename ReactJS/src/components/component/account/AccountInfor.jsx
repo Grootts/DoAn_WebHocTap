@@ -8,17 +8,16 @@ import Modal from "antd/es/modal/Modal";
 import { useEffect, useState } from "react";
 import { Badge } from "antd";
 import { useSelector } from "react-redux";
-import CourseRegisterPanel from "../courseRegisterPanel/CourseRegisterPanel";
 import { useMutationHooks } from "../../../hook/useMutationHook";
 import * as UserServices from "../../../services/UserServices";
 import * as OrderServices from "../../../services/OrderServices";
 const AccountInfo = () => {
   const navigate = useNavigate();
-
   var arr = [];
   const order = useSelector((state) => state.order);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenCourse, setIsModalOpenCourse] = useState(false);
+  const [loadCourse, setLoadCourse] = useState(false);
   const user = useSelector((state) => state.user);
   const [dataUser, setDataUser] = useState();
   const [coursesCard, setDataCourse] = useState([]);
@@ -52,7 +51,7 @@ const AccountInfo = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseisSuccess]);
+  }, [courseisSuccess, loadCourse]);
   useEffect(() => {
     if (isSuccess) {
       const dataUser = data?.data;
@@ -125,10 +124,11 @@ const AccountInfo = () => {
       alert(error.response.data.message);
     }
   };
-  const handleLogout = () => {
-    localStorage.clear();
 
+  const handleLogout = () => {
+    window.localStorage.clear();
     navigate("/login");
+    window.location.reload();
   };
   // const handleShowNotification = () => {
   //   setShowNotify(!showNotify);
@@ -141,6 +141,7 @@ const AccountInfo = () => {
   };
   const handleOpenInfoCourse = () => {
     setIsModalOpenCourse(true);
+    setLoadCourse(!loadCourse);
   };
   const handleCancelCourse = () => {
     setIsModalOpenCourse(false);
@@ -150,6 +151,9 @@ const AccountInfo = () => {
   };
   const handleShowOrder = () => {
     navigate("/order");
+  };
+  const handleClickCourse = (id) => {
+    navigate(`/courseDetail/${id}`);
   };
   console.log(coursesCard);
   return (
@@ -227,13 +231,7 @@ const AccountInfo = () => {
                   </div>
                   <div className={styles.inputAdd}>
                     <p>Địa chỉ email:</p>
-                    <input
-                      placeholder="Enter Valid Email Address"
-                      type="email"
-                      name="email"
-                      value={stateProductDetail.email}
-                      onChange={handleOnchangeDetail}
-                    />
+                    <p>{stateProductDetail.email}</p>
                   </div>
                   <div className={styles.inputAdd}>
                     <p>Mật khẩu:</p>
@@ -247,6 +245,7 @@ const AccountInfo = () => {
                   </div>
                   <div>
                     <div
+                      style={{ marginTop: "7px" }}
                       className={styles.button}
                       onClick={() => handleSubmitUpdate(stateProductDetail._id)}
                     >
@@ -266,7 +265,23 @@ const AccountInfo = () => {
         >
           <form>
             <div className={styles.showInfoPanel}>
-              {coursesCard && <CourseRegisterPanel data={coursesCard} />}
+              <div>
+                {coursesCard &&
+                  coursesCard?.map((data1) => {
+                    return (
+                      <div
+                        className={styles.coursePanel}
+                        key={data1.course}
+                        onClick={() => handleClickCourse(data1.course)}
+                      >
+                        <img alt="" src={data1.image} />
+                        <div>
+                          <p>{data1.name}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </form>
         </Modal>

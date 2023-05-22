@@ -147,3 +147,18 @@
 .bodyNotify {
   border-bottom: 1px solid #f0eaeac9;
 }
+.coursePanel {
+  border: 0.5px solid rgba(0, 0, 0, 0.084);
+  display: flex;
+  flex-direction: row;
+  width: 400px;
+  gap: 44px;
+  padding: 8px;
+  user-select: none;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.coursePanel img {
+  height: 100px;
+  width: 100px;
+}

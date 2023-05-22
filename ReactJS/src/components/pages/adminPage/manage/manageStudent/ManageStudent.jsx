@@ -45,18 +45,27 @@ const ManageStudent = () => {
   }, [isSuccess]);
   const handleOk = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "api/auth/users/register",
-        stateProduct
-      );
-      if (response.status === 201) {
-        alert("Thêm thành công");
-        setUpdate(!update);
+    if (stateProduct?.password.length < 6) {
+      alert("Mật khẩu phải nhiều hơn 6 kí tự");
+    } else {
+      try {
+        const response = await axios.post(
+          "api/auth/users/register",
+          stateProduct
+        );
+        if (response.status === 201) {
+          alert("Thêm thành công");
+          setStateProduct({
+            name: "",
+            email: "",
+            password: "",
+          });
+          setUpdate(!update);
+          handleCancel();
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
   const handleCancel = () => {
@@ -100,25 +109,28 @@ const ManageStudent = () => {
   };
   const handleSubmitUpdate = async (id) => {
     console.log(id);
+    if (stateProductDetail?.password.length < 6) {
+      alert("Mật khẩu phải nhiều hơn 6 kí tự");
+    } else {
+      try {
+        const response = await axios.put(
+          `api/user/update-user/${id}`,
+          stateProductDetail
+        );
 
-    try {
-      const response = await axios.put(
-        `api/user/update-user/${id}`,
-        stateProductDetail
-      );
-
-      if (response.status === 200) {
-        alert("cập nhật thành công");
-        setUpdate(!update);
-        return setOpen(false);
+        if (response.status === 200) {
+          alert("cập nhật thành công");
+          setUpdate(!update);
+          onClose();
+          return setOpen(false);
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
   return (
     <div className={styles.manageCourseTable}>
-      <Loading isLoading={isLoading}></Loading>
       <Modal
         title="Thêm học sinh"
         open={isModalOpen}
@@ -145,6 +157,7 @@ const ManageStudent = () => {
               name="email"
               value={stateProduct.email}
               onChange={handleOnchange}
+              required
             />
           </div>
           <div className={styles.inputAdd}>
@@ -155,6 +168,7 @@ const ManageStudent = () => {
               name="password"
               value={stateProduct.password}
               onChange={handleOnchange}
+              required
             />
           </div>
         </form>

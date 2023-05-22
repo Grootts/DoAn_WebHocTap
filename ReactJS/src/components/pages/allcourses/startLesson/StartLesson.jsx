@@ -4,26 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import styles from "./StartLesson.module.css";
 const StartLesson = () => {
   const { id } = useParams();
-  const [roomCode, setRoomCode] = useState({
-    room: "",
-  });
+  const roomCode = id;
   const navigate = useNavigate();
 
   const handelCreateRoom = async (id) => {
-    setRoomCode({
-      room: Math.random().toString(36).substr(2),
-    });
+    alert("Tạo phòng thành công");
     console.log(roomCode);
-    const response = await axios.put(`api/course/update/${id}`, roomCode);
 
-    if (response.status === 200 && roomCode.room !== "") {
-      alert("Tạo phòng thành công");
-      console.log(roomCode);
-      if (roomCode.room) {
-        navigate(`room/${roomCode.room}`);
-      }
-    }
+    navigate(`room/${roomCode}`);
   };
+
   return (
     <div className={styles.startLessonPanelAdmin}>
       <div style={{ fontSize: "40px", fontWeight: "700" }}>

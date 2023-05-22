@@ -7,11 +7,16 @@ export const ForgotPassword = () => {
   const [email, setEmail] = useState();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const res = await axios.post("/api/auth/forget-password", { email });
 
-    if (res) {
-      alert("email Sent");
+    if (res.status === 200) {
+      alert("Đã gửi link về email");
+    }
+    if (res.status === 201) {
+      alert("Email chưa đăng ký");
+    }
+    if (res.status === 202) {
+      alert("Email không được để trống");
     }
   };
   return (

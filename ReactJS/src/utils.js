@@ -7,7 +7,7 @@ export const getBase64 = (file) =>
   });
 export const convertPrice = (price) => {
   try {
-    const result = price?.toLocaleString().replaceAll(",");
+    const result = price?.toLocaleString().replaceAll(",", ".");
     return `${result} VND`;
   } catch (error) {
     return null;
@@ -15,7 +15,7 @@ export const convertPrice = (price) => {
 };
 export const convertPriceAdmin = (price) => {
   try {
-    const result = price?.toLocaleString().replaceAll(",");
+    const result = price?.toLocaleString().replaceAll(",", ".");
     return `${result} $`;
   } catch (error) {
     return null;

@@ -44,18 +44,46 @@ const ManageStatistical = () => {
   // };
   const handleExport = () => {
     const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet("My Sheet");
-    sheet.properties.defaultRowHeight = 80;
+    // const sheet = workbook.addWorksheet("My Sheet", {
+    //   headerFooter: {
+    //     firstHeader: "Hello Exceljs",
+    //     firstFooter: "Hello World",
+    //   },
+    // });
+
+    const sheet = workbook.addWorksheet("sheet");
+
+    //sheet.properties.defaultRowHeight = 80;
+    // sheet.addRow = { header: "Thống kê" };
+
+    // sheet.mergeCells("A1:B2");
+
+    // sheet.getCell("B2").value = "Hello, World!";
+    // Modify/Add individual cell
+    // sheet.insertRow(1, { id: 1, name: "John Doe", dob: new Date(1970, 1, 1) });
+
+    sheet.getRow(1).font = {
+      name: "Comic Sans MS",
+      family: 4,
+      size: 16,
+      bold: true,
+    };
+    sheet.getRow.font = {
+      name: "Roboto",
+      family: 2,
+      size: 8,
+      bold: true,
+    };
     sheet.columns = [
       {
         header: "Tên khóa học",
         key: "Tên",
-        width: 20,
+        width: 60,
       },
       {
         header: "Email người mua",
         key: "User",
-        width: 20,
+        width: 30,
       },
       {
         header: "Ngày mua",
@@ -65,7 +93,7 @@ const ManageStatistical = () => {
       {
         header: "Tổng hóa đơn",
         key: "Tiền",
-        width: 10,
+        width: 50,
       },
     ];
     const myExportData = data?.data.map((data) =>
@@ -76,6 +104,27 @@ const ManageStatistical = () => {
         Tiền: convertPrice(data?.totalPrice),
       })
     );
+
+    sheet.addRow({
+      Tên: "Tổng tiền",
+      Tiền: convertPrice(totalAllOrder),
+    });
+
+    const priceCol = sheet.getColumn(3);
+
+    // iterate over all current cells in this column
+    priceCol.eachCell((cell) => {
+      const cellValue = sheet.getCell(cell?.address).value;
+      // add a condition to set styling
+      if (cellValue > 50 && cellValue < 1000) {
+        sheet.getCell(cell?.address).fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "FF0000" },
+        };
+      }
+    });
+
     workbook.xlsx.writeBuffer().then(function (data) {
       const blob = new Blob([data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -83,10 +132,11 @@ const ManageStatistical = () => {
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "ThongKe.xlsx";
+      anchor.download = "download.xlsx";
       anchor.click();
       window.URL.revokeObjectURL(url);
     });
+
     console.log("Export", myExportData);
   };
   return (

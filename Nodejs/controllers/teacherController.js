@@ -8,7 +8,7 @@ class teacherController {
       if (!id) {
         return res.status(200).json({
           status: "ERR",
-          message: "The teacherId is required",
+          message: "Không tìm thấy giáo viên",
         });
       }
 
@@ -19,7 +19,7 @@ class teacherController {
       if (checkteacher === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The teacher is not defined",
+          message: "Không tìm thấy giáo viên",
         });
       }
       if (password || name || description) {
@@ -61,7 +61,7 @@ class teacherController {
       if (!id) {
         return res.status(200).json({
           status: "ERR",
-          message: "The teacherId is required",
+          message: "Id giáo viên không được trống",
         });
       }
 
@@ -71,14 +71,14 @@ class teacherController {
       if (checkteacher == null) {
         return res.status(200).json({
           status: "ERR",
-          message: id,
+          message: "Không tìm thấy giáo viên",
         });
       }
 
       await authModel.findByIdAndDelete(id);
       return res.status(200).json({
         status: "OK",
-        message: "Delete teacher success",
+        message: "Xóa giáo viên thành công",
       });
     } catch (e) {
       return res.status(404).json({

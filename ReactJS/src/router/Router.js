@@ -42,9 +42,8 @@ const Router = () => {
           <Route index element={<Introduce />} />
           <Route path="lesson" element={<Lesson />} />
           <Route path="call" element={<StartLessonStudent />} />
-          <Route path="call/room/:roomID" element={<Room />} />
         </Route>
-
+        <Route path="courseDetail/:id/call/room/:roomID" element={<Room />} />
         <Route path="order" element={<OrderPage />} />
         <Route path="search" element={<Search />} />
         <Route path="profile" element={<ProfilePage />} />

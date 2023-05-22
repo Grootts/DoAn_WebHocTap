@@ -49,22 +49,26 @@ const ManageTeacher = () => {
 
   const handleOk = async (e) => {
     e.preventDefault();
+    if (stateProduct?.password.length < 6) {
+      alert("Mật khẩu phải nhiều hơn 6 kí tự");
+    } else {
+      try {
+        const response = await TeacherServies.registerTeacher(stateProduct);
 
-    try {
-      const response = await TeacherServies.registerTeacher(stateProduct);
-
-      if (response.message === "Registered Successfully") {
-        alert("Thêm thành công");
-        setUpdate(!update);
-        setStateProduct({
-          name: "",
-          email: "",
-          password: "",
-          description: "",
-        });
+        if (response.message === "Registered Successfully") {
+          alert("Thêm thành công");
+          setUpdate(!update);
+          setStateProduct({
+            name: "",
+            email: "",
+            password: "",
+            description: "",
+          });
+          handleCancel();
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
 
@@ -109,25 +113,28 @@ const ManageTeacher = () => {
   };
   const handleSubmitUpdate = async (id) => {
     console.log(id);
+    if (stateProductDetail?.password.length < 6) {
+      alert("Mật khẩu phải nhiều hơn 6 kí tự");
+    } else {
+      try {
+        const response = await axios.put(
+          `api/user/update-user/${id}`,
+          stateProductDetail
+        );
 
-    try {
-      const response = await axios.put(
-        `api/user/update-user/${id}`,
-        stateProductDetail
-      );
-
-      if (response.status === 200) {
-        alert("cập nhật thành công");
-        setUpdate(!update);
-        return setOpen(false);
+        if (response.status === 200) {
+          alert("cập nhật thành công");
+          setUpdate(!update);
+          onClose();
+          return setOpen(false);
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
   return (
     <div className={styles.manageCourseTable}>
-      <Loading isLoading={isLoading}></Loading>
       <Modal
         title="Thêm giáo viên"
         open={isModalOpen}
@@ -154,6 +161,7 @@ const ManageTeacher = () => {
               name="email"
               value={stateProduct.email}
               onChange={handleOnchange}
+              required
             />
           </div>
           <div className={styles.inputAdd}>
@@ -164,6 +172,7 @@ const ManageTeacher = () => {
               name="password"
               value={stateProduct.password}
               onChange={handleOnchange}
+              required
             />
           </div>
           <div className={styles.inputAdd}>
@@ -174,6 +183,7 @@ const ManageTeacher = () => {
               name="description"
               value={stateProduct.description}
               onChange={handleOnchange}
+              required
             />
           </div>
         </form>

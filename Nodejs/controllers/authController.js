@@ -10,7 +10,9 @@ class authController {
       if (name && email && password) {
         const isUser = await authModel.findOne({ email: email });
         if (isUser) {
-          return res.status(400).json({ message: "user Already Exists" });
+          return res
+            .status(400)
+            .json({ message: "Email người dùng đã tồn tại" });
         } else {
           // Password HAshing
           const genSalt = await bcryptjs.genSalt(10);
@@ -24,7 +26,7 @@ class authController {
             expiresIn: "10m",
           });
 
-          const link = `http://localhost:8800/api/auth/verify/${token}`;
+          const link = `https://website-study.onrender.com/api/auth/verify/${token}`;
 
           await sendEmail(email, "register", link);
           // save the user
@@ -38,13 +40,14 @@ class authController {
 
           const resUser = await newUser.save();
           if (resUser) {
-            return res
-              .status(201)
-              .json({ message: "Registered Successfully", user: resUser });
+            return res.status(201).json({
+              message: "Đăng ký thành công, hãy xác thực email",
+              user: resUser,
+            });
           }
         }
       } else {
-        return res.status(400).json({ message: "all fields are required" });
+        return res.status(400).json({ message: "Không được để trống dữ liệu" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -70,7 +73,7 @@ class authController {
                 expiresIn: "2d",
               });
               return res.status(200).json({
-                message: "Login Successfully",
+                message: "Đăng nhập thành công",
                 token,
                 name: isUser.name,
                 role: isUser.role,
@@ -78,18 +81,18 @@ class authController {
                 email: isUser.email,
               });
             } else {
-              return res.status(400).json({ message: "Invalid Credentials!" });
+              return res
+                .status(400)
+                .json({ message: "Thông tin không hợp lệ" });
             }
           } else {
-            return res
-              .status(400)
-              .json({ message: "Email Verification Pending" });
+            return res.status(400).json({ message: "Đang chờ xác minh email" });
           }
         } else {
-          return res.status(400).json({ message: "user Not Registered!!" });
+          return res.status(400).json({ message: "Người dùng chưa đăng ký" });
         }
       } else {
-        return res.status(400).json({ message: "all fields are required" });
+        return res.status(400).json({ message: "Không được để trống dữ liệu" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -105,13 +108,11 @@ class authController {
         await authModel.findByIdAndUpdate(req.user._id, {
           password: hashedPassword,
         });
-        return res
-          .status(200)
-          .json({ message: "password Changed Successfully" });
+        return res.status(200).json({ message: "Đổi mật khẩu thành công" });
       } else {
         return res
           .status(400)
-          .json({ message: "password and confirm password does not match" });
+          .json({ message: "Mật khẩu và xác nhận mật khẩu không khớp" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -131,21 +132,15 @@ class authController {
             expiresIn: "5m",
           });
 
-          const link = `http://localhost:3000/user/reset/${isUser._id}/${token}`;
+          const link = `https://website-study.onrender.com/user/reset/${isUser._id}/${token}`;
           // email sending
-          sendEmail(email, "resetpassword", link);
-
-          transport.sendEmail((error) => {
-            if (error) {
-              return res.status(400).json({ message: "Error" });
-            }
-            return res.status(200).json({ message: "Email Sent" });
-          });
+          await sendEmail(email, "resetpassword", link);
+          return res.status(200).json({ message: "Đã gửi email" });
         } else {
-          return res.status(400).json({ message: "Invalid Email" });
+          return res.status(201).json({ message: "Email không hợp lệ" });
         }
       } else {
-        return res.status(400).json({ message: "email is required" });
+        return res.status(202).json({ message: "Email không được trống" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -177,21 +172,21 @@ class authController {
 
             if (isSuccess) {
               return res.status(200).json({
-                message: "Password Changed Successfully",
+                message: "Đổi mật khẩu thành công",
               });
             }
           } else {
             return res.status(400).json({
-              message: "Link has been Expired",
+              message: "Liên kết đã hết hạn",
             });
           }
         } else {
           return res
             .status(400)
-            .json({ message: "password and confirm password does not match" });
+            .json({ message: "Mật khẩu và xác nhận mật khẩu không khớp" });
         }
       } else {
-        return res.status(400).json({ message: "All fields are required" });
+        return res.status(400).json({ message: "Không được để trống dữ liệu" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -219,15 +214,15 @@ class authController {
           if (saveEmail) {
             return res
               .status(200)
-              .json({ message: "Email Verification Success" });
+              .json({ message: "Email xác thực thành công" });
           }
 
           //
         } else {
-          return res.status(400).json({ message: "Link Expired" });
+          return res.status(400).json({ message: "Liên kết đã hết hạn" });
         }
       } else {
-        return res.status(400).json({ message: "Invalid URL" });
+        return res.status(400).json({ message: "URL không hợp lệ" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -239,7 +234,7 @@ class authController {
       if (name && email && password) {
         const isteacher = await authModel.findOne({ email: email });
         if (isteacher) {
-          return res.status(400).json({ message: "teacher Already Exists" });
+          return res.status(400).json({ message: "Email đã tốn tại" });
         } else {
           // Password HAshing
           const genSalt = await bcryptjs.genSalt(10);
@@ -250,7 +245,7 @@ class authController {
             expiresIn: "10m",
           });
 
-          const link = `http://localhost:8800/api/auth/verify/${token}`;
+          const link = `https://website-study.onrender.com/api/auth/verify/${token}`;
 
           await sendEmail(email, "register", link);
           // save the teacher
@@ -266,13 +261,13 @@ class authController {
           const resteacher = await newteacher.save();
           if (resteacher) {
             return res.status(200).json({
-              message: "Registered Successfully",
+              message: "Đăng ký thành công, hãy xác thực email",
               teacher: resteacher,
             });
           }
         }
       } else {
-        return res.status(400).json({ message: "all fields are required" });
+        return res.status(400).json({ message: "Không được để trống dữ liệu" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -305,18 +300,18 @@ class authController {
                 description,
               });
             } else {
-              return res.status(400).json({ message: "Invalid Credentials!" });
+              return res
+                .status(400)
+                .json({ message: "Thông tin không hợp lệ!" });
             }
           } else {
-            return res
-              .status(400)
-              .json({ message: "Email Verification Pending" });
+            return res.status(400).json({ message: "Email đang chờ xác thực" });
           }
         } else {
-          return res.status(400).json({ message: "teacher Not Registered!!" });
+          return res.status(400).json({ message: "Giáo viên chưa đăng ký" });
         }
       } else {
-        return res.status(400).json({ message: "all fields are required" });
+        return res.status(400).json({ message: "Không được để trống dữ liệu" });
       }
     } catch (error) {
       return res.status(400).json({ message: error.message });

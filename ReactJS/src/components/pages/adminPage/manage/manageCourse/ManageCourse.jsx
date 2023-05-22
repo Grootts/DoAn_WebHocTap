@@ -6,7 +6,7 @@ import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
 import { getBase64 } from "../../../../../utils";
 import { WrapperUploadFile } from "./Style";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMutationHooks } from "../../../../../hook/useMutationHook";
 import * as CourseServices from "../../../../../services/CourseServices";
 import { useSelector } from "react-redux";
@@ -43,15 +43,20 @@ const ManageCourse = () => {
     setIsModalOpen(true);
   };
   const handleOk = async (e) => {
-    try {
-      const response = await axios.post("api/course/create", stateProduct);
+    if (stateProduct.price < 0) {
+      alert("Giá tiền phải lớn hơn 0 vnđ");
+    } else {
+      try {
+        const response = await axios.post("api/course/create", stateProduct);
 
-      if (response.status === 200) {
-        alert(response.data.message);
-        setUpdate(!update);
+        if (response.status === 200) {
+          alert(response.data.message);
+          setUpdate(!update);
+          handleCancel();
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
   const mutation = useMutationHooks((data) => CourseServices.getAllCourse());
@@ -127,21 +132,25 @@ const ManageCourse = () => {
     }
   };
   const handleSubmitUpdate = async (id) => {
-    console.log(id);
+    console.log(stateProductDetail.price);
+    if (stateProductDetail.price < 0) {
+      alert("Giá tiền phải lớn hơn 0 vnđ");
+    } else {
+      try {
+        const response = await axios.put(
+          `api/course/update/${id}`,
+          stateProductDetail
+        );
 
-    try {
-      const response = await axios.put(
-        `api/course/update/${id}`,
-        stateProductDetail
-      );
-
-      if (response.status === 200) {
-        alert("cập nhật thành công");
-        setUpdate(!update);
-        return setOpen(false);
+        if (response.status === 200) {
+          alert("cập nhật thành công");
+          setUpdate(!update);
+          onClose();
+          return setOpen(false);
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
   const handleDelete = async (id) => {
@@ -202,7 +211,7 @@ const ManageCourse = () => {
           <div className={styles.inputAdd}>
             <p>Giá:</p>
             <input
-              type="text"
+              type="number"
               name="price"
               value={stateProduct.price}
               onChange={handleOnchange}
@@ -310,7 +319,7 @@ const ManageCourse = () => {
             <div className={styles.inputAdd}>
               <p>Giá:</p>
               <input
-                type="text"
+                type="number"
                 name="price"
                 value={stateProductDetail.price}
                 onChange={handleOnchangeDetail}

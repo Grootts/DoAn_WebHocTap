@@ -13,15 +13,18 @@ export const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post("api/auth/users/register", input);
-      if (response.status === 201) {
-        alert(response.data.message);
-        navigate("/login");
+    if (input?.password.length < 6) {
+      alert("Mật khẩu phải nhiều hơn 6 kí tự");
+    } else {
+      try {
+        const response = await axios.post("api/auth/users/register", input);
+        if (response.status === 201) {
+          alert(response.data.message);
+          navigate("/login");
+        }
+      } catch (error) {
+        alert(error.response.data.message);
       }
-    } catch (error) {
-      alert(error.response.data.message);
     }
   };
   return (
@@ -68,6 +71,7 @@ export const Register = () => {
                 })
               }
               className={styles.registerInput}
+              required
             />
             <input
               className={styles.registerInput}
@@ -81,6 +85,7 @@ export const Register = () => {
                   [e.target.name]: e.target.value,
                 })
               }
+              required
             />
           </div>
           <button className={styles.registerButton}>Đăng ký</button>

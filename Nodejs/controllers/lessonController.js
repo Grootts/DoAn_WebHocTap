@@ -6,7 +6,7 @@ class lessonController {
       if (!course_id) {
         return res.status(200).json({
           status: "ERR",
-          message: "The input is required",
+          message: "Dữ liệu nhập vào không được để trống",
         });
       }
       const createLesson = await Lesson.create({
@@ -16,14 +16,14 @@ class lessonController {
       if (createLesson) {
         return res.status(200).json({
           status: "OK",
-          message: "SUCCESS",
+          message: "Tạo bài học thành công",
           data: newCourse,
         });
       }
       if (!createLesson) {
         return res.status(404).json({
           status: "error",
-          message: "no",
+          message: "Tạo khóa học không thành công",
           data: createLesson,
         });
       }
@@ -56,7 +56,7 @@ class lessonController {
       if (!id) {
         return res.status(200).json({
           status: "ERR",
-          message: "The course_id is required",
+          message: "course_id không được để trống ",
         });
       }
       const DetailsLesson = await Lesson.findOne({ course_id: id });
@@ -64,7 +64,7 @@ class lessonController {
       if (DetailsLesson === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The Lesson is not defined",
+          message: "Không tìm thấy bài học",
         });
       }
 

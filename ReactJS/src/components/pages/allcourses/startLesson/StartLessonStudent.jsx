@@ -7,9 +7,10 @@ import styles from "./StartLesson.module.css";
 import { useMutationHooks } from "../../../../hook/useMutationHook";
 const StartLessonStudent = () => {
   const user = useSelector((state) => state.user);
-  const [roomCode, setRoomCode] = useState();
+
   const navigate = useNavigate();
   const { id } = useParams();
+  const roomCode = id;
   const [show, setShow] = useState(false);
   useEffect(() => {
     mutationCourse.mutate(id);
@@ -33,17 +34,8 @@ const StartLessonStudent = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccessCourse]);
-  const handelCreateRoom = async () => {
-    const response = await axios.get(`api/course/get-details/${id}`);
-    const room = response?.data?.data.room;
-    setRoomCode(room);
-    if (
-      response.status === 200 &&
-      room !== undefined &&
-      roomCode !== undefined
-    ) {
-      navigate(`room/${roomCode}`);
-    }
+  const handelCreateRoom = async (id) => {
+    navigate(`room/${roomCode}`);
   };
 
   return (
@@ -54,7 +46,7 @@ const StartLessonStudent = () => {
             Bắt đầu học ngay bây giờ
           </div>
           <div className={styles.startLessonCode}>
-            <button onClick={() => handelCreateRoom(id)}>Vào học</button>
+            <button onClick={() => handelCreateRoom(id)}>Start</button>
           </div>
         </div>
       )}

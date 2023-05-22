@@ -9,7 +9,7 @@ class orderController {
       if ((!totalPrice, !userId, !userEmail)) {
         return res.status(200).json({
           status: "ERR",
-          message: "The input is required",
+          message: "Không được để trống giá trị đầu vào",
         });
       }
       orderItems.map(async (order) => {
@@ -41,7 +41,7 @@ class orderController {
       if (createdOrder) {
         return res.status(200).json({
           status: "OK",
-          message: "success",
+          message: "Tạo hóa đơn thành công",
         });
       }
     } catch (e) {
@@ -57,7 +57,7 @@ class orderController {
       if (!userId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The userId is required",
+          message: "UserId không được để trống",
         });
       }
       const order = await orderModel
@@ -68,13 +68,13 @@ class orderController {
       if (order === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The order is not defined",
+          message: "Không tìm thấy hóa đơn",
         });
       }
 
       return res.status(200).json({
         status: "OK",
-        message: "SUCESSS",
+        message: "Lấy hóa đơn thành công",
         data: order,
       });
     } catch (e) {
@@ -91,7 +91,7 @@ class orderController {
       if (!orderId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The userId is required",
+          message: "UserId không được để trống",
         });
       }
       const order = await orderModel.findById({
@@ -100,13 +100,13 @@ class orderController {
       if (order === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The order is not defined",
+          message: "Không tìm thấy hóa đơn",
         });
       }
 
       return res.status(200).json({
         status: "OK",
-        message: "SUCESSS",
+        message: "Tạo hóa đơn thành công",
         data: order,
       });
     } catch (e) {
@@ -122,7 +122,7 @@ class orderController {
       if (!idUser) {
         return res.status(200).json({
           status: "ERR",
-          message: "The userID null",
+          message: "UserId không được trống",
         });
       }
       const order = await orderModel.findOne({
@@ -131,7 +131,7 @@ class orderController {
       if (order === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The order is not defined",
+          message: "Không tìm thấy hóa đơn",
         });
       }
 
@@ -155,7 +155,7 @@ class orderController {
       if (!orderId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The orderId is required",
+          message: "orderId không được trống",
         });
       }
       let order = [];
@@ -171,7 +171,7 @@ class orderController {
           if (order === null) {
             return res.status(200).json({
               status: "ERR",
-              message: "The order is not defined",
+              message: "Không tìm thấy hóa đơn",
             });
           }
         } else {
@@ -188,7 +188,7 @@ class orderController {
       if (newData) {
         return res.status(200).json({
           status: "ERR",
-          message: `San pham voi id: ${newData} khong ton tai`,
+          message: `Sản phẩm với id: ${newData} không tồn tại`,
         });
       }
       return res.status(200).json({

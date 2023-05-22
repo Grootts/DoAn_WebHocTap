@@ -8,7 +8,7 @@ class userController {
       if (!id) {
         return res.status(200).json({
           status: "ERR",
-          message: "The userId is required",
+          message: "UserId không được để trống",
         });
       }
 
@@ -19,7 +19,7 @@ class userController {
       if (checkUser === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The user is not defined",
+          message: "Không tìm thấy người dùng",
         });
       }
       if (password || name) {
@@ -59,7 +59,7 @@ class userController {
       if (!userId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The UserId is required",
+          message: "UserId không được để trống",
         });
       }
       const DetailsUser = await authModel.findOne({
@@ -68,7 +68,7 @@ class userController {
       if (DetailsUser === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The User is not defined",
+          message: "Không tìm thấy người dùng",
         });
       }
 
@@ -105,7 +105,7 @@ class userController {
       if (!id) {
         return res.status(200).json({
           status: "ERR",
-          message: "The userId is required",
+          message: "UserId không được để trống",
         });
       }
       const checkUser = await authModel.findOne({
@@ -115,7 +115,7 @@ class userController {
       if (checkUser == null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The user is not defined",
+          message: "Không tìm thấy người dùng",
         });
       }
       console.log(checkUser.role);
@@ -128,7 +128,7 @@ class userController {
       await authModel.findByIdAndDelete(id);
       return res.status(200).json({
         status: "OK",
-        message: "Delete user success",
+        message: "Xóa người dùng thành công",
       });
     } catch (e) {
       return res.status(404).json({
@@ -155,7 +155,7 @@ class userController {
       );
       res.status(200).json({
         status: "OK",
-        message: "SUCCESS",
+        message: "Cập nhật người dùng thành công",
         data: updateUser,
       });
     }

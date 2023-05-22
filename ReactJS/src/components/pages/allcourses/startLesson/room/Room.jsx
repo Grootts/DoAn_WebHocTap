@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const Room = () => {
   const user = useSelector((state) => state.user);
-  const name = user.name;
+  const name = user?.name;
   const { roomID } = useParams();
   // if (window.localStorage) {
   //   if (!localStorage.getItem("firstLoad")) {
@@ -14,8 +14,8 @@ const Room = () => {
   //   } else localStorage.removeItem("firstLoad");
   // }
   const meeting = async (element) => {
-    const appID = 79029281;
-    const serverSecret = "4759ce407700d7ef4747cf2bd286db7f";
+    const appID = 1223037231;
+    const serverSecret = "0555d1c4649152716da9747e5d477998";
     console.log(roomID);
 
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
@@ -38,7 +38,7 @@ const Room = () => {
     <div
       ref={meeting}
       style={{
-        width: "90vw",
+        width: user?.isRole === "student" ? "100vw" : "90vw",
         height: "100vh",
         display: "flex",
         alignItems: "center",

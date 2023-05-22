@@ -1,12 +1,12 @@
 import Course from "../models/courseModel.js";
 class courseController {
   static createCourse = async (req, res) => {
-    const { name, image, type, price, description, createdBy } = req.body;
+    const { name, image, type, price, description, createdBy, room } = req.body;
 
     if (!name || !image || !type || !description || !price || !createdBy) {
       return res.json({
         status: "ERR",
-        message: "The input is required",
+        message: "Không được để trống dữ liệu ",
       });
     }
     const checkCourse = await Course.findOne({
@@ -31,11 +31,12 @@ class courseController {
           userName: "",
         },
       ],
+      room: "",
     });
     if (newCourse) {
       return res.status(200).json({
         status: "OK",
-        message: "SUCCESS",
+        message: "Tạo lớp học thành công",
         data: newCourse,
       });
     }
@@ -55,7 +56,7 @@ class courseController {
       if (!courseId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The CourseId is required",
+          message: "CourseId không được trống",
         });
       }
       const checkCourse = await Course.findOne({
@@ -64,7 +65,7 @@ class courseController {
       if (checkCourse === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The Course is not defined",
+          message: "Không tìm thấy lớp học",
         });
       }
 
@@ -73,7 +74,7 @@ class courseController {
       });
       return res.status(200).json({
         status: "OK",
-        message: "SUCCESS",
+        message: "Cập nhật khóa học thành công",
         data: updatedCourse,
       });
     } catch (e) {
@@ -171,7 +172,7 @@ class courseController {
       if (!courseId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The CourseId is required",
+          message: "CourseId không được trống",
         });
       }
       const DetailsCourse = await Course.findOne({
@@ -180,7 +181,7 @@ class courseController {
       if (DetailsCourse === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The Course is not defined",
+          message: "Không tìm thấy lớp học",
         });
       }
 
@@ -201,7 +202,7 @@ class courseController {
       if (!courseId) {
         return res.status(200).json({
           status: "ERR",
-          message: "The CourseId is required",
+          message: " CourseId không được trống",
         });
       }
       const checkCourse = await Course.findOne({
@@ -210,14 +211,14 @@ class courseController {
       if (checkCourse === null) {
         return res.status(200).json({
           status: "ERR",
-          message: "The Course is not defined",
+          message: "Không tìm thấy lớp học",
         });
       }
 
       await Course.findByIdAndDelete(courseId);
       return res.status(200).json({
         status: "OK",
-        message: "Delete Course success",
+        message: "Xóa lớp học thành công",
       });
     } catch (e) {
       return res.status(404).json({
