@@ -1,6 +1,6 @@
 {
   "name": "doan-websitehoctap",
-   "proxy": "http://localhost:8800",
+   "proxy": "https://website-study.onrender.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
