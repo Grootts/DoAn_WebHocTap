@@ -10,7 +10,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Loading from "../../../component/loading/Loading";
 const { Panel } = Collapse;
-const Lesson = () => {
+const Lesson = ({ reLoad }) => {
   const user = useSelector((state) => state.user);
   const { id } = useParams();
   const [show, setShow] = useState(false);
@@ -31,8 +31,8 @@ const Lesson = () => {
   useEffect(() => {
     mutation.mutate({ id: id });
     mutationCourse.mutate(id);
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reLoad]);
   const mutationCourse = useMutationHooks((data) =>
     CourseServices.getDetailsCourse(data)
   );

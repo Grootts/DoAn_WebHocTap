@@ -79,7 +79,7 @@ const ManageLesson = () => {
           </div>
         </form>
       </Modal>
-      <Lesson />
+      <Lesson reLoad={isModalOpen} />
     </div>
   );
 };
