@@ -1,12 +1,22 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./MenuDetail.module.css";
 import { Tabs } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const MenuDetail = ({ show1 }) => {
   const onChange = (key) => {
     console.log(key);
   };
+  console.log(show1);
+  const [show, setShow] = useState(true);
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    if (user?.id !== "") {
+      setShow(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const items = [
     {
       key: "1",
@@ -14,14 +24,14 @@ const MenuDetail = ({ show1 }) => {
     },
     {
       key: "2",
-      label: show1 ? "Tài liệu" : <Link to="lesson">Tài liệu</Link>,
-      disabled: show1,
+      label: show ? "Tài liệu" : <Link to="lesson">Tài liệu</Link>,
+      disabled: show,
     },
     {
       key: "3",
-      label: show1 ? "Vào học" : <Link to="call">Vào học</Link>,
+      label: show ? "Vào học" : <Link to="call">Vào học</Link>,
 
-      disabled: show1,
+      disabled: show,
     },
   ];
   return (

@@ -13,3 +13,11 @@ export const convertPrice = (price) => {
     return null;
   }
 };
+export const convertPriceAdmin = (price) => {
+  try {
+    const result = price?.toLocaleString().replaceAll(",");
+    return `${result} $`;
+  } catch (error) {
+    return null;
+  }
+};

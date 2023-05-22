@@ -1,17 +1,19 @@
 import { Collapse, Drawer } from "antd";
 import styles from "./Lesson.module.css";
+import * as CourseServices from "../../../../services/CourseServices";
 import axios from "../../../../services/axiosInterceptor";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useMutationHooks } from "../../../../hook/useMutationHook";
 import * as LessonServices from "../../../../services/LessonServices";
 import { FaPencilAlt } from "react-icons/fa";
-import ManageLesson from "../../adminPage/manage/manageLesson/ManageLesson";
 import { useSelector } from "react-redux";
+import Loading from "../../../component/loading/Loading";
 const { Panel } = Collapse;
 const Lesson = () => {
   const user = useSelector((state) => state.user);
   const { id } = useParams();
+  const [show, setShow] = useState(false);
   const [stateLessonDetail, setstateLessonDetail] = useState({
     nameLesson: "",
     description: "",
@@ -28,13 +30,39 @@ const Lesson = () => {
   const { data, isSuccess, isLoading } = mutation;
   useEffect(() => {
     mutation.mutate({ id: id });
+    mutationCourse.mutate(id);
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const mutationCourse = useMutationHooks((data) =>
+    CourseServices.getDetailsCourse(data)
+  );
 
+  const {
+    data: dataCourse,
+    isLoading: isLoadingCourse,
+    isSuccess: isSuccessCourse,
+  } = mutationCourse;
+
+  useEffect(() => {
+    if (isSuccessCourse) {
+      const checkFollow = dataCourse?.data?.userFollow?.filter(
+        (element) => element?.userId === user?.id
+      );
+      if (checkFollow.length !== 0) {
+        setShow(true);
+        console.log(checkFollow.length);
+        console.log(show);
+      }
+      console.log(checkFollow);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccessCourse]);
   useEffect(() => {
     if (isSuccess) {
       const dataAllLesson = data?.data?.lesson ?? [];
       setDataCourse(dataAllLesson);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
   const handleUpdate = (id) => {
     setIdLesson(id);
@@ -50,7 +78,7 @@ const Lesson = () => {
     });
     console.log(stateLessonDetail);
   };
-
+  console.log(show);
   const handleSubmitUpdate = async (id) => {
     console.log(id);
 
@@ -69,6 +97,9 @@ const Lesson = () => {
       alert(error.response.data.message);
     }
   };
+  if (isLoading || isLoadingCourse) {
+    return <Loading isLoading={isLoading || isLoadingCourse}></Loading>;
+  }
   return (
     <div className={styles.lessonStyles}>
       {coursesCard.map((data, index) => {
@@ -113,9 +144,9 @@ const Lesson = () => {
                 </form>
               </Drawer>
             )}
-            <Collapse defaultActiveKey={["1"]} onChange={onChange}>
-              <Panel header={data.nameLesson} key={data._id}>
-                {(user?.isRole === "admin" || user?.isRole === "teacher") && (
+            {(user?.isRole === "admin" || user?.isRole === "teacher") && (
+              <Collapse defaultActiveKey={["1"]} onChange={onChange}>
+                <Panel header={data.nameLesson} key={data._id}>
                   <div
                     className={styles.updateCourse}
                     onClick={() => handleUpdate(data._id)}
@@ -123,11 +154,18 @@ const Lesson = () => {
                     {" "}
                     <FaPencilAlt />
                   </div>
-                )}
 
-                <p>{data.description}</p>
-              </Panel>
-            </Collapse>
+                  <p>{data.description}</p>
+                </Panel>
+              </Collapse>
+            )}
+            {user?.isRole === "student" && show && (
+              <Collapse defaultActiveKey={["1"]} onChange={onChange}>
+                <Panel header={data.nameLesson} key={data._id}>
+                  <p>{data.description}</p>
+                </Panel>
+              </Collapse>
+            )}
           </div>
         );
       })}

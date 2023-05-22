@@ -4,12 +4,14 @@ import axios from "../../../../../services/axiosInterceptor";
 import { Modal } from "antd";
 import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
-import { Button, Drawer } from "antd";
+import { Drawer } from "antd";
 import { useMutationHooks } from "../../../../../hook/useMutationHook";
 import * as UserServices from "../../../../../services/UserServices";
+import Loading from "../../../../component/loading/Loading";
 const ManageStudent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coursesCard, setDataCourse] = useState([]);
+  const [update, setUpdate] = useState(false);
   const [stateProduct, setStateProduct] = useState({
     name: "",
     email: "",
@@ -17,7 +19,6 @@ const ManageStudent = () => {
   });
   const [stateProductDetail, setStateProductDetail] = useState({
     name: "",
-    email: "",
     password: "",
   });
   const [open, setOpen] = useState(false);
@@ -31,7 +32,8 @@ const ManageStudent = () => {
   const { data, isSuccess, isLoading } = mutation;
   useEffect(() => {
     mutation.mutate();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -39,6 +41,7 @@ const ManageStudent = () => {
         data?.data.filter((element) => element.role.includes("student")) ?? [];
       setDataCourse(dataAllStudent);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
   const handleOk = async (e) => {
     e.preventDefault();
@@ -49,8 +52,8 @@ const ManageStudent = () => {
         stateProduct
       );
       if (response.status === 201) {
-        alert(response.data.message);
-        window.location.reload();
+        alert("Thêm thành công");
+        setUpdate(!update);
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -89,7 +92,7 @@ const ManageStudent = () => {
 
       if (response.status === 200) {
         alert(response.data.message);
-        window.location.reload();
+        setUpdate(!update);
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -106,7 +109,7 @@ const ManageStudent = () => {
 
       if (response.status === 200) {
         alert("cập nhật thành công");
-        window.location.reload();
+        setUpdate(!update);
         return setOpen(false);
       }
     } catch (error) {
@@ -115,6 +118,7 @@ const ManageStudent = () => {
   };
   return (
     <div className={styles.manageCourseTable}>
+      <Loading isLoading={isLoading}></Loading>
       <Modal
         title="Thêm học sinh"
         open={isModalOpen}
@@ -125,7 +129,7 @@ const ManageStudent = () => {
           <div className={styles.inputAdd}>
             <p>Tên của bạn:</p>
             <input
-              placeholder="Enter Your Name"
+              placeholder="Nhập tên"
               type="text"
               name="name"
               value={stateProduct.name}
@@ -136,7 +140,7 @@ const ManageStudent = () => {
           <div className={styles.inputAdd}>
             <p>Địa chỉ email:</p>
             <input
-              placeholder="Enter Valid Email Address"
+              placeholder="Nhập email muốn đăng kí"
               type="email"
               name="email"
               value={stateProduct.email}
@@ -146,7 +150,7 @@ const ManageStudent = () => {
           <div className={styles.inputAdd}>
             <p>Mật khẩu:</p>
             <input
-              placeholder="Enter Password"
+              placeholder="Nhập mật khẩu"
               type="password"
               name="password"
               value={stateProduct.password}
@@ -164,13 +168,13 @@ const ManageStudent = () => {
           onClose={onClose}
           open={open}
           closable={false}
-          size="large"
+          width="450px"
         >
-          <form>
+          <form style={{ marginTop: "60px" }}>
             <div className={styles.inputAdd}>
               <p>Tên của bạn:</p>
               <input
-                placeholder="Enter Your Name"
+                placeholder="Nhập tên muốn thay đổi"
                 type="text"
                 name="name"
                 value={stateProductDetail.name}
@@ -180,25 +184,25 @@ const ManageStudent = () => {
             </div>
             <div className={styles.inputAdd}>
               <p>Địa chỉ email:</p>
-              <input
-                placeholder="Enter Valid Email Address"
-                type="email"
-                name="email"
-                value={stateProductDetail.email}
-                onChange={handleOnchangeDetail}
-              />
+              <p>{stateProductDetail.email}</p>
             </div>
             <div className={styles.inputAdd}>
               <p>Mật khẩu:</p>
               <input
-                placeholder="Enter Password"
+                placeholder="Nhập mật khẩu muốn thay đổi"
                 type="password"
                 name="password"
-                value={stateProductDetail.password}
                 onChange={handleOnchangeDetail}
               />
             </div>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "40px",
+              }}
+            >
               <div
                 className={styles.addCourse}
                 onClick={() => handleSubmitUpdate(stateProductDetail._id)}
@@ -223,7 +227,7 @@ const ManageStudent = () => {
           </tr>
         </thead>
         <tbody className={styles.courseBody}>
-          {coursesCard.map((data) => {
+          {coursesCard?.map((data) => {
             return (
               <tr key={data._id}>
                 <th>{data.name}</th>
@@ -249,6 +253,7 @@ const ManageStudent = () => {
           })}
         </tbody>
       </table>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

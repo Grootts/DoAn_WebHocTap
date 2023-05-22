@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from "./MenuAdmin.module.css";
 import { useSelector } from "react-redux";
+import logo from "../../../../image/logo (1).png";
 const MenuAdmin = () => {
   const user = useSelector((state) => state.user);
   return (
     <div className={styles.menuAdminStyles}>
       <div className={styles.menuLogo}>
-        <img src="./logo.png" />
+        <img alt="" src={logo} />
       </div>
       <ul className={styles.menuItem}>
         <li>

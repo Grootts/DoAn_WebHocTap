@@ -7,7 +7,7 @@ import StatisticalPanel from "../../../component/statisticalPanel/StatisticalPan
 import styles from "./StatisticalHome.module.css";
 import { useMutationHooks } from "../../../../hook/useMutationHook";
 import { useEffect, useState } from "react";
-import { convertPrice } from "../../../../utils";
+import { convertPriceAdmin } from "../../../../utils";
 const StatisticalHome = () => {
   const [countStudent, setCountStudent] = useState(0);
   const [countTeacher, setCountTeacher] = useState(0);
@@ -15,7 +15,7 @@ const StatisticalHome = () => {
   const [countMonney, setCountMonney] = useState(0);
 
   const mutation = useMutationHooks((data) => UserServices.getAllUser());
-  const { data, isSuccess, isLoading } = mutation;
+  const { data, isSuccess } = mutation;
   //course
   const mutationCourse = useMutationHooks((dataCourse) =>
     CourseServices.getAllCourse()
@@ -23,20 +23,16 @@ const StatisticalHome = () => {
   const {
     data: dataCourse,
     isSuccess: isSuccessCourse,
-    isLoading: isLoadingCourse,
   } = mutationCourse;
   const mutationMoney = useMutationHooks((dataMoney) =>
     OrderServices.getAllOrder()
   );
-  const {
-    data: dataMoney,
-    isSuccess: isSuccessMoney,
-    isLoading: isLoadingMoney,
-  } = mutationMoney;
+  const { data: dataMoney, isSuccess: isSuccessMoney } = mutationMoney;
   useEffect(() => {
     mutation.mutate();
     mutationCourse.mutate();
     mutationMoney.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(mutationCourse ?? []);
   console.log(dataCourse);
@@ -61,9 +57,10 @@ const StatisticalHome = () => {
       let sum = 0;
       for (const a of priceOrder) {
         sum += a;
-        setCountMonney(sum);
+        setCountMonney(convertPriceAdmin(sum));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isSuccessCourse, isSuccessMoney]);
 
   const oks = [

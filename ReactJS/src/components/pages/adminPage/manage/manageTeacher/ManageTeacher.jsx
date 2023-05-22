@@ -7,18 +7,22 @@ import { MdDelete } from "react-icons/md";
 import { useMutationHooks } from "../../../../../hook/useMutationHook";
 import * as UserServices from "../../../../../services/UserServices";
 import * as TeacherServies from "../../../../../services/TeacherServies";
+import Loading from "../../../../component/loading/Loading";
 const ManageTeacher = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coursesCard, setDataCourse] = useState([]);
+  const [update, setUpdate] = useState(false);
   const [stateProduct, setStateProduct] = useState({
     name: "",
     email: "",
     password: "",
+    description: "",
   });
   const [stateProductDetail, setStateProductDetail] = useState({
     name: "",
     email: "",
     password: "",
+    description: "",
   });
   const [open, setOpen] = useState(false);
   const handleAddCourse = () => {
@@ -31,7 +35,8 @@ const ManageTeacher = () => {
   const { data, isSuccess, isLoading } = mutation;
   useEffect(() => {
     mutation.mutate();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -39,6 +44,7 @@ const ManageTeacher = () => {
         data?.data.filter((element) => element.role.includes("teacher")) ?? [];
       setDataCourse(dataAllStudent);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   const handleOk = async (e) => {
@@ -47,9 +53,15 @@ const ManageTeacher = () => {
     try {
       const response = await TeacherServies.registerTeacher(stateProduct);
 
-      if (response.status === 201) {
-        alert(response.data.message);
-        window.location.reload();
+      if (response.message === "Registered Successfully") {
+        alert("Thêm thành công");
+        setUpdate(!update);
+        setStateProduct({
+          name: "",
+          email: "",
+          password: "",
+          description: "",
+        });
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -89,7 +101,7 @@ const ManageTeacher = () => {
 
       if (response.status === 200) {
         alert("Xóa thành công");
-        window.location.reload();
+        setUpdate(!update);
       }
     } catch (error) {
       alert("Xóa không thành công");
@@ -106,7 +118,7 @@ const ManageTeacher = () => {
 
       if (response.status === 200) {
         alert("cập nhật thành công");
-        window.location.reload();
+        setUpdate(!update);
         return setOpen(false);
       }
     } catch (error) {
@@ -115,8 +127,9 @@ const ManageTeacher = () => {
   };
   return (
     <div className={styles.manageCourseTable}>
+      <Loading isLoading={isLoading}></Loading>
       <Modal
-        title="Thêm lớp"
+        title="Thêm giáo viên"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -125,7 +138,7 @@ const ManageTeacher = () => {
           <div className={styles.inputAdd}>
             <p>Tên của bạn:</p>
             <input
-              placeholder="Enter Your Name"
+              placeholder="Nhập tên"
               type="text"
               name="name"
               value={stateProduct.name}
@@ -136,7 +149,7 @@ const ManageTeacher = () => {
           <div className={styles.inputAdd}>
             <p>Địa chỉ email:</p>
             <input
-              placeholder="Enter Valid Email Address"
+              placeholder="Nhập email đăng ký"
               type="email"
               name="email"
               value={stateProduct.email}
@@ -146,10 +159,20 @@ const ManageTeacher = () => {
           <div className={styles.inputAdd}>
             <p>Mật khẩu:</p>
             <input
-              placeholder="Enter Password"
+              placeholder="Nhập mật khẩu"
               type="password"
               name="password"
               value={stateProduct.password}
+              onChange={handleOnchange}
+            />
+          </div>
+          <div className={styles.inputAdd}>
+            <p>Lời giới thiệu:</p>
+            <textarea
+              placeholder="Nhập lời giưới thiệu"
+              type="text"
+              name="description"
+              value={stateProduct.description}
               onChange={handleOnchange}
             />
           </div>
@@ -164,13 +187,13 @@ const ManageTeacher = () => {
           onClose={onClose}
           open={open}
           closable={false}
-          size="large"
+          width="450px"
         >
-          <form>
+          <form style={{ marginTop: "40px" }}>
             <div className={styles.inputAdd}>
               <p>Tên của bạn:</p>
               <input
-                placeholder="Enter Your Name"
+                placeholder="Nhập tên"
                 type="text"
                 name="name"
                 value={stateProductDetail.name}
@@ -180,25 +203,36 @@ const ManageTeacher = () => {
             </div>
             <div className={styles.inputAdd}>
               <p>Địa chỉ email:</p>
-              <input
-                placeholder="Enter Valid Email Address"
-                type="email"
-                name="email"
-                value={stateProductDetail.email}
-                onChange={handleOnchangeDetail}
-              />
+              <p>{stateProductDetail.email}</p>
             </div>
             <div className={styles.inputAdd}>
               <p>Mật khẩu:</p>
               <input
-                placeholder="Enter Password"
+                placeholder="Nhập mật khẩu muốn thay đổi"
                 type="password"
                 name="password"
                 value={stateProductDetail.password}
                 onChange={handleOnchangeDetail}
               />
             </div>
-            <div>
+            <div className={styles.inputAdd}>
+              <p>Lời giới thiệu</p>
+              <textarea
+                placeholder="Nhập lời giới thiệu"
+                type="text"
+                name="description"
+                value={stateProductDetail.description}
+                onChange={handleOnchangeDetail}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "40px",
+              }}
+            >
               <div
                 className={styles.addCourse}
                 onClick={() => handleSubmitUpdate(stateProductDetail._id)}
@@ -223,13 +257,13 @@ const ManageTeacher = () => {
           </tr>
         </thead>
         <tbody className={styles.courseBody}>
-          {coursesCard.map((data) => {
+          {coursesCard?.map((data) => {
             return (
-              <tr>
+              <tr key={data._id}>
                 <th>{data.name}</th>
                 <th>{data.email}</th>
                 <th>
-                  {data.isVerified === true ? "Đã xác thực" : "chưa xác thực"}
+                  {data.isVerified === true ? "Đã xác thực" : "Chưa xác thực"}
                 </th>
                 <th>{data.role}</th>
                 <th>
@@ -249,6 +283,7 @@ const ManageTeacher = () => {
           })}
         </tbody>
       </table>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

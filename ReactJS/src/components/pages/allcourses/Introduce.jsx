@@ -9,15 +9,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrderProduct } from "../../../redux/slide/orderSlide";
 import React from "react";
-import MenuDetail from "./MenuDetail";
 import { convertPrice } from "../../../utils";
+import Loading from "../../component/loading/Loading";
+
 const Introduce = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token", 1);
   const user = useSelector((state) => state.user);
   const idUser = user?.id;
   const [show, setShow] = useState("true");
+  const [register, setRegister] = useState(false);
   const [coursesCard, setDataCourse] = useState([]);
   const mutation = useMutationHooks((data) =>
     CourseServices.getDetailsCourse(data)
@@ -25,8 +26,9 @@ const Introduce = () => {
 
   const { data, isLoading, isSuccess } = mutation;
   useEffect(() => {
-    mutation.mutate(id);
     mutationCourse.mutate();
+    mutation.mutate(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const mutationCourse = useMutationHooks((data) =>
@@ -39,77 +41,75 @@ const Introduce = () => {
   } = mutationCourse;
 
   useEffect(() => {
-    if (coursesIsSuccess) {
+    if (coursesIsSuccess && idUser) {
       const dataOrderByUser = coursesData?.data?.filter((element) =>
         element.userId?.includes(idUser)
       );
-      console.log(data?.data);
-      const soSanh = dataOrderByUser
-        ?.map((courses) =>
-          courses.orderItems?.map((nameOrder) => nameOrder.course)
-        )
-        ?.filter((element) => element.includes(id))
-        ?.some((element) => element.includes(id));
 
-      console.log(soSanh);
-      if (soSanh) {
-        setShow("false");
-        <MenuDetail show1={false} />;
+      if (dataOrderByUser && idUser) {
+        const soSanh = dataOrderByUser
+          ?.map((courses) =>
+            courses.orderItems?.map((nameOrder) => nameOrder.course)
+          )
+          ?.filter((element) => element.includes(id))
+          ?.some((element) => element.includes(id));
+        console.log(idUser);
+        console.log(soSanh);
+        if (soSanh) {
+          setShow("false");
+        }
       }
     }
-    if (token === null) {
-      setShow("true");
-      <MenuDetail show1={true} />;
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coursesIsSuccess]);
+  console.log(coursesCard);
   useEffect(() => {
-    if (isSuccess && data?.status === "OK") {
+    if (isSuccess) {
+      setDataCourse(data?.data);
+
       const checkFollow = data?.data?.userFollow?.filter(
         (element) => element?.userId === user?.id
       );
-
-      setDataCourse(data?.data);
-      if (checkFollow !== "") {
-        setShow("follow");
+      if (checkFollow.length !== 0 && checkFollow !== "" && user?.id !== "") {
+        setRegister(true);
+        console.log(checkFollow);
       }
+      console.log(checkFollow);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
-  if (isSuccess && data?.status === "OK") {
-    const checkFollow = data?.data?.userFollow?.filter(
-      (element) => element?.userId === user?.id
-    );
-    if (show === "false" && checkFollow !== "") {
-      setShow("follow");
-    }
-    console.log(checkFollow);
-  }
 
-  console.log(coursesCard);
   const handleAddOrderProduct = () => {
-    dispatch(
-      addOrderProduct({
-        orderItem: {
-          name: coursesCard?.name,
-          image: coursesCard?.image,
-          price: coursesCard?.price,
-          course: coursesCard?._id,
-        },
-      })
-    );
+    if (user?.id === "") {
+      alert("Bạn phải đăng nhập");
+    } else {
+      dispatch(
+        addOrderProduct({
+          orderItem: {
+            name: coursesCard?.name,
+            image: coursesCard?.image,
+            price: coursesCard?.price,
+            course: coursesCard?._id,
+          },
+        })
+      );
+    }
   };
-  const handleFollow = async () => {
+
+  const handleRegisterCourse = async () => {
     const res = await axios.put(`api/course/update-follow/${id}`, {
       userId: user?.id,
       userName: user?.name,
     });
     if (res.status === 200) {
-      setShow("follow");
+      setRegister(true);
+      setShow(1);
     } else {
       alert("Chưa theo dõi thành công");
     }
   };
-  if (isLoading) {
-    return <React.Fragment></React.Fragment>;
+  if (isLoading || coursesIsLoading) {
+    return <Loading isLoading={isLoading || coursesIsLoading}></Loading>;
   }
   return (
     <div className={styles.introduceStyles}>
@@ -137,15 +137,19 @@ const Introduce = () => {
                 justifyContent: "center",
               }}
             >
-              {show === "true" && (
+              {show === "true" && register === false && (
                 <button onClick={handleAddOrderProduct}>
                   {convertPrice(coursesCard?.price)}
                 </button>
               )}{" "}
-              {show === "false" && (
+              {/* {show === "false" && (
                 <button onClick={handleFollow}>Theo dõi khóa học</button>
               )}
-              {show === "follow" && <p>Đã theo dõi</p>}
+              {show === "follow" && <p>Đã theo dõi</p>} */}
+              {show === "false" && register === false && (
+                <button onClick={handleRegisterCourse}>Đăng ký khóa học</button>
+              )}
+              {register && <p>Đã đăng ký</p>}
             </div>
           </div>
         </div>

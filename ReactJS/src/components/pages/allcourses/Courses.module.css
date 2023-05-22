@@ -182,9 +182,3 @@
   align-items: center;
   background-color: #1eb2a6;
 }
-.isLoading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-}

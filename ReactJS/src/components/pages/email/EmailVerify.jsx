@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./EmailVerify.module.css";

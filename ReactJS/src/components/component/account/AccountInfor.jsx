@@ -1,21 +1,16 @@
-import {
-  IoMdArrowDropdown,
-  IoMdNotifications,
-  IoMdNotificationsOutline,
-} from "react-icons/io";
+import { IoMdArrowDropdown } from "react-icons/io";
 import axios from "../../../services/axiosInterceptor";
 import avatar from "../../../image/avatar.png";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./AccountInfor.module.css";
 import Modal from "antd/es/modal/Modal";
 import { useEffect, useState } from "react";
 import { Badge } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CourseRegisterPanel from "../courseRegisterPanel/CourseRegisterPanel";
 import { useMutationHooks } from "../../../hook/useMutationHook";
 import * as UserServices from "../../../services/UserServices";
-import * as CourseServices from "../../../services/CourseServices";
 import * as OrderServices from "../../../services/OrderServices";
 const AccountInfo = () => {
   const navigate = useNavigate();
@@ -24,12 +19,9 @@ const AccountInfo = () => {
   const order = useSelector((state) => state.order);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenCourse, setIsModalOpenCourse] = useState(false);
-  const [showNotify, setShowNotify] = useState(false);
-  const dataLocal = localStorage.getItem("name", 1);
   const user = useSelector((state) => state.user);
   const [dataUser, setDataUser] = useState();
   const [coursesCard, setDataCourse] = useState([]);
-  const [coursesCard2, setDataCourse2] = useState([]);
   const [stateProductDetail, setStateProductDetail] = useState({
     name: "",
     email: "",
@@ -40,15 +32,12 @@ const AccountInfo = () => {
     OrderServices.getAllOrder()
   );
   const [showEdit, setShowEdit] = useState(true);
-  const { data, isSuccess, isLoading } = mutation;
-  const {
-    data: courseData,
-    isSuccess: courseisSuccess,
-    isLoading: courseisLoading,
-  } = mutationCourse;
+  const { data, isSuccess } = mutation;
+  const { data: courseData, isSuccess: courseisSuccess } = mutationCourse;
   useEffect(() => {
     mutation.mutate(user?.id);
     mutationCourse.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (courseisSuccess) {
@@ -62,12 +51,14 @@ const AccountInfo = () => {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseisSuccess]);
   useEffect(() => {
     if (isSuccess) {
       const dataUser = data?.data;
       setDataUser(dataUser);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
   // useEffect(() => {
   //   if (user) {
@@ -181,7 +172,7 @@ const AccountInfo = () => {
       </Badge>
       <div className={styles.infoContainer}>
         <div className={styles.accountInfo}>
-          <img src={avatar} />
+          <img alt="" src={avatar} />
           <div>{dataUser?.name}</div>
           <IoMdArrowDropdown />
         </div>
@@ -195,7 +186,7 @@ const AccountInfo = () => {
           <form>
             <div className={styles.showInfoPanel}>
               <div>
-                <img className={styles.img} src={avatar} />
+                <img alt="" className={styles.img} src={avatar} />
               </div>
               <div></div>
               {showEdit ? (

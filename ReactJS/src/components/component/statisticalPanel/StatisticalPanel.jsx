@@ -1,4 +1,3 @@
-import { FaUserGraduate } from "react-icons/fa";
 import styles from "./StatisticalPanel.module.css";
 const StatisticalPanel = ({ title, count, icon }) => {
   return (

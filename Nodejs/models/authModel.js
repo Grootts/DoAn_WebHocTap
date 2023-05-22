@@ -17,6 +17,9 @@ const authSchema = new mongoose.Schema({
   role: {
     type: String,
   },
+  description: {
+    type: String,
+  },
 });
 
 const authModel = mongoose.model("user", authSchema);

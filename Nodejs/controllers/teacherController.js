@@ -1,8 +1,9 @@
 import authModel from "../models/authModel.js";
+import bcryptjs from "bcryptjs";
 class teacherController {
   static updateTeacher = async (req, res) => {
     const { id } = req.params;
-    const data = req.body;
+    const { password, name, description } = req.body;
     try {
       if (!id) {
         return res.status(200).json({
@@ -21,10 +22,32 @@ class teacherController {
           message: "The teacher is not defined",
         });
       }
-      const updatedteacher = await authModel.findByIdAndUpdate(id, data, {
-        new: true,
-      });
-      return res.status(200).json(updatedteacher);
+      if (password || name || description) {
+        if (password.length < 16 && password) {
+          const gensalt = await bcryptjs.genSalt(10);
+          const hashedPassword = await bcryptjs.hash(password, gensalt);
+          await authModel.findByIdAndUpdate(
+            checkteacher._id,
+            {
+              $set: {
+                password: hashedPassword,
+              },
+            },
+            { returnDocument: "after" }
+          );
+        }
+        await authModel.findByIdAndUpdate(
+          checkteacher._id,
+          {
+            $set: {
+              name: name,
+              description: description,
+            },
+          },
+          { returnDocument: "after" }
+        );
+        return res.status(200).json(checkteacher);
+      }
     } catch (e) {
       return res.status(404).json({
         message: e,

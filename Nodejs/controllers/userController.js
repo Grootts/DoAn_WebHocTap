@@ -1,9 +1,9 @@
 import authModel from "../models/authModel.js";
-
+import bcryptjs from "bcryptjs";
 class userController {
   static updateUser = async (req, res) => {
     const { id } = req.params;
-    const data = req.body;
+    const { password, name } = req.body;
     try {
       if (!id) {
         return res.status(200).json({
@@ -22,10 +22,31 @@ class userController {
           message: "The user is not defined",
         });
       }
-      const updatedUser = await authModel.findByIdAndUpdate(id, data, {
-        new: true,
-      });
-      return res.status(200).json(updatedUser);
+      if (password || name) {
+        if (password.length < 16 && password) {
+          const gensalt = await bcryptjs.genSalt(10);
+          const hashedPassword = await bcryptjs.hash(password, gensalt);
+          await authModel.findByIdAndUpdate(
+            checkUser._id,
+            {
+              $set: {
+                password: hashedPassword,
+              },
+            },
+            { returnDocument: "after" }
+          );
+        }
+        await authModel.findByIdAndUpdate(
+          checkUser._id,
+          {
+            $set: {
+              name: name,
+            },
+          },
+          { returnDocument: "after" }
+        );
+        return res.status(200).json(checkUser);
+      }
     } catch (e) {
       return res.status(404).json({
         message: e,

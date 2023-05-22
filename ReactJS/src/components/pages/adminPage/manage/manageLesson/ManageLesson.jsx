@@ -3,7 +3,8 @@ import Lesson from "../../../allcourses/lesson/Lesson";
 import axios from "../../../../../services/axiosInterceptor";
 import styles from "./ManageLesson.module.css";
 import { useState } from "react";
-import { Drawer, Modal } from "antd";
+import { Modal } from "antd";
+
 const ManageLesson = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [stateLesson, setStateLesson] = useState({

@@ -234,7 +234,7 @@ class authController {
     }
   };
   static teacherRegistration = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, description } = req.body;
     try {
       if (name && email && password) {
         const isteacher = await authModel.findOne({ email: email });
@@ -260,11 +260,12 @@ class authController {
             password: hashedPassword,
             isVerified: false,
             role: "teacher",
+            description,
           });
 
           const resteacher = await newteacher.save();
           if (resteacher) {
-            return res.status(201).json({
+            return res.status(200).json({
               message: "Registered Successfully",
               teacher: resteacher,
             });
@@ -301,6 +302,7 @@ class authController {
                 token,
                 name: isteacher.name,
                 role,
+                description,
               });
             } else {
               return res.status(400).json({ message: "Invalid Credentials!" });

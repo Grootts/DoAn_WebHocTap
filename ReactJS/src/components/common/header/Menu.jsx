@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Menu.module.css";
-
+import logo from "../../../image/logo (1).png";
 const Menu = () => {
   return (
     <div className={styles.headerLayout}>
@@ -9,10 +9,11 @@ const Menu = () => {
         <div className={styles.containerMenu}>
           <div className={styles.headLayout}>
             <img
-              src="./logo.png"
+            alt=""
+              src={logo}
               style={{
                 width: "100px",
-                height: "50px",
+                height: "55px",
                 marginLeft: "50px",
               }}
             />

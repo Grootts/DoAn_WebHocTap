@@ -66,7 +66,7 @@ const ChartManage = () => {
     },
   });
   const mutation = useMutationHooks((data) => OrderServices.getAllOrder());
-  const { data, isSuccess, isLoading } = mutation;
+  const { data, isSuccess } = mutation;
   const [month, setMonth] = useState();
 
   const handleFilterMonth = (e) => {
@@ -122,7 +122,7 @@ const ChartManage = () => {
         loc.push(val.totalPrice, val);
         dataSet1.push(val.totalPrice);
         console.log(dataSet1);
-        const dayOrder = moment(val.createdAt).format("YYYY-MM-DD hh:mm");
+        const dayOrder = moment(val.createdAt).format("YYYY-MM-DD hh");
         labelSet.push(dayOrder);
       }
       setData({
@@ -138,9 +138,11 @@ const ChartManage = () => {
       });
       console.log("arrData", dataSet1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
   useEffect(() => {
     mutation.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

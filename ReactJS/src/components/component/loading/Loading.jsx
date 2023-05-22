@@ -3,9 +3,18 @@ import React from "react";
 
 const Loading = ({ children, isLoading, deday = 200 }) => {
   return (
-    <Spin spinning={isLoading} delay={deday}>
-      {children}
-    </Spin>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "30px",
+      }}
+    >
+      <Spin spinning={isLoading} delay={deday}>
+        {children}
+      </Spin>
+    </div>
   );
 };
 

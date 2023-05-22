@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "../../../services/axiosInterceptor";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import { FaHome } from "react-icons/fa";
-import Router from "../../../router/Router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateUser } from "../../../redux/slide/userSlide";
-import { useMutationHooks } from "../../../hook/useMutationHook";
-import * as UserServices from "../../../services/UserServices";
-import { isError } from "@tanstack/react-query";
 export const Login = () => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
-  const mutation = useMutationHooks((data) => UserServices.loginUser(data));
-  const { data, isLoading, isSuccess } = mutation;
 
   const handleLogin = async (e) => {
     e.preventDefault();

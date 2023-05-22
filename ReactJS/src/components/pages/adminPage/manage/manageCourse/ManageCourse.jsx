@@ -6,14 +6,15 @@ import { GrUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
 import { getBase64 } from "../../../../../utils";
 import { WrapperUploadFile } from "./Style";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useMutationHooks } from "../../../../../hook/useMutationHook";
 import * as CourseServices from "../../../../../services/CourseServices";
 import { useSelector } from "react-redux";
+import Loading from "../../../../component/loading/Loading";
 const ManageCourse = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenListStudent, setIsModalOpenListStudent] = useState(false);
-
+  const [update, setUpdate] = useState(false);
   const user = useSelector((state) => state.user);
   const inittial = () => ({
     name: "",
@@ -38,7 +39,6 @@ const ManageCourse = () => {
   const onClose = () => {
     setOpen(false);
   };
-  const navigate = useNavigate();
   const handleAddCourse = () => {
     setIsModalOpen(true);
   };
@@ -48,7 +48,7 @@ const ManageCourse = () => {
 
       if (response.status === 200) {
         alert(response.data.message);
-        window.location.reload();
+        setUpdate(!update);
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -58,7 +58,8 @@ const ManageCourse = () => {
   const { data, isSuccess, isLoading } = mutation;
   useEffect(() => {
     mutation.mutate();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -73,6 +74,7 @@ const ManageCourse = () => {
         setDataCourse(dataAllCourse);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   const handleCancel = () => {
@@ -135,7 +137,7 @@ const ManageCourse = () => {
 
       if (response.status === 200) {
         alert("cập nhật thành công");
-        window.location.reload();
+        setUpdate(!update);
         return setOpen(false);
       }
     } catch (error) {
@@ -148,7 +150,7 @@ const ManageCourse = () => {
 
       if (response.status === 200) {
         alert(response.data.message);
-        window.location.reload();
+        setUpdate(!update);
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -275,9 +277,9 @@ const ManageCourse = () => {
           onClose={onClose}
           open={open}
           closable={false}
-          size="large"
+          width="450px"
         >
-          <form>
+          <form style={{ marginTop: "40px" }}>
             <div className={styles.inputAdd}>
               <p>Tên lớp:</p>
               <input
@@ -342,7 +344,14 @@ const ManageCourse = () => {
                 />
               )}
             </WrapperUploadFile>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "40px",
+              }}
+            >
               <div
                 className={styles.addCourse}
                 onClick={() => handleSubmitUpdate(stateProductDetail._id)}
@@ -356,6 +365,7 @@ const ManageCourse = () => {
       <div className={styles.addCourse}>
         <div onClick={handleAddCourse}>Thêm mới</div>
       </div>
+
       <table>
         <thead className={styles.courseTitle}>
           <tr>
@@ -366,6 +376,7 @@ const ManageCourse = () => {
             <th>Hành động</th>
           </tr>
         </thead>
+
         <tbody className={styles.courseBody}>
           {coursesCard.map((data) => {
             return (
@@ -405,6 +416,7 @@ const ManageCourse = () => {
           })}
         </tbody>
       </table>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

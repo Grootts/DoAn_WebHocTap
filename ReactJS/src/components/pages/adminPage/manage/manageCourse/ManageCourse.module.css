@@ -41,6 +41,7 @@
   justify-content: center;
   cursor: pointer;
   margin-top: 5px;
+  max-width: 500px;
 }
 .addCourse:hover {
   background-color: #9fa2ed;

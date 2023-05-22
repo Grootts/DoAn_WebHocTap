@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import styles from "./ManageStatistical.module.css";
-import axios from "../../../../../services/axiosInterceptor";
 import { useMutationHooks } from "../../../../../hook/useMutationHook";
 import * as OrderServices from "../../../../../services/OrderServices";
-import * as UserServices from "../../../../../services/UserServices";
 import moment from "moment";
 import ChartManage from "./chart/ChartManage";
 import { convertPrice } from "../../../../../utils";
+import { RiFileExcel2Fill } from "react-icons/ri";
+import Loading from "../../../../component/loading/Loading";
 const ExcelJS = require("exceljs");
 const ManageStatistical = () => {
   const [totalAllOrder, setTotalAllOrder] = useState("");
 
   const [dataOrder, setDataOrder] = useState([]);
-  const [user, setUser] = useState();
   const mutation = useMutationHooks((data) => OrderServices.getAllOrder());
   const { data, isSuccess, isLoading } = mutation;
   const date = new Date().getTime();
   console.log(date);
   useEffect(() => {
     mutation.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const ManageStatistical = () => {
         console.log(totalAllOrder);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   // const exportExcel = () => {
@@ -67,14 +68,14 @@ const ManageStatistical = () => {
         width: 10,
       },
     ];
-    const myExportData = data?.data.map((data) => {
+    const myExportData = data?.data.map((data) =>
       sheet.addRow({
         Tên: data?.orderItems.map((items) => items.name),
         User: data?.userEmail,
-        Ngày: moment(data?.createdAt).format("hh:mm:ss"),
+        Ngày: moment(data?.createdAt).format("YYYY-MM-DD"),
         Tiền: convertPrice(data?.totalPrice),
-      });
-    });
+      })
+    );
     workbook.xlsx.writeBuffer().then(function (data) {
       const blob = new Blob([data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -91,10 +92,13 @@ const ManageStatistical = () => {
   return (
     <div className={styles.manageCourseTable}>
       <ChartManage />
+
       <p>Quản lý hóa đơn</p>
       <h3>Tổng hóa đơn:{convertPrice(totalAllOrder)}</h3>
 
-      <button onClick={handleExport}>Xuat file</button>
+      <div onClick={handleExport} className={styles.addCourse}>
+        Xuất file <RiFileExcel2Fill />
+      </div>
       <table>
         <thead className={styles.courseTitle}>
           <tr>
@@ -123,6 +127,7 @@ const ManageStatistical = () => {
           })}
         </tbody>
       </table>
+      <Loading isLoading={isLoading}></Loading>
     </div>
   );
 };

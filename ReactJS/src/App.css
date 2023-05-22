@@ -10,7 +10,9 @@ body {
   background-color: #f6faff;
   height: 100%;
 }
-
+div {
+  user-select: none;
+}
 /*------------global-----------*/
 .container {
   max-width: 85%;

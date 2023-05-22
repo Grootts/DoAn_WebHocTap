@@ -6,7 +6,7 @@ import {
   removeAllOrderProduct,
   removeOrderProduct,
 } from "../../../redux/slide/orderSlide";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { convertPrice } from "../../../utils";
 import { PayPalButton } from "react-paypal-button-v2";
 import * as PaymentService from "../../../services/PaymentServices";
@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
-  const [sdkReady, setSdkReady] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(order);
@@ -54,17 +53,12 @@ const OrderPage = () => {
     script.type = "text/javascript";
     script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
     script.async = true;
-    script.onload = () => {
-      setSdkReady(true);
-    };
     document.body.appendChild(script);
   };
 
   useEffect(() => {
     if (window.paypal) {
       addPaypalScript();
-    } else {
-      setSdkReady(true);
     }
   }, []);
   return (
@@ -82,7 +76,7 @@ const OrderPage = () => {
                   <div className={styles.orderShopping}>
                     <div className={styles.orderItem} key={index}>
                       <div className={styles.orderItemText}>
-                        <img src={course.image} />
+                        <img alt="" src={course.image} />
                         <h4>Tên khóa học: {course.name}</h4>
                       </div>
                       <div className={styles.orderItemAction}>

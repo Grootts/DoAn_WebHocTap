@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Courses.module.css";
 import { useNavigate } from "react-router-dom";
-import axios from "../../../services/axiosInterceptor";
 import { useMutationHooks } from "../../../hook/useMutationHook";
 import * as CourseServices from "../../../services/CourseServices";
 import { convertPrice } from "../../../utils";
@@ -14,10 +13,10 @@ const CoursesCard = () => {
   const [search, setSearch] = useState("");
   const [time, setTime] = useState(2000);
   const searchDebounce = useDebounce(search, time);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     mutation.mutate(search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchDebounce]);
   const mutation = useMutationHooks((data) =>
     CourseServices.getAllCourse(search)
@@ -31,6 +30,7 @@ const CoursesCard = () => {
     if (isError) {
       alert("error call api");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
   const onSearch = (e) => {
     setSearch(e.target.value);
@@ -64,10 +64,9 @@ const CoursesCard = () => {
           </div>
         </div>
       </div>
-      <div className={styles.isLoading}>
-        {" "}
-        <Loading isLoading={isLoading}></Loading>
-      </div>
+
+      <Loading isLoading={isLoading}></Loading>
+
       <div className={styles.coursesCardStyles}>
         {isSuccess &&
           coursesCard?.map((couser) => {
