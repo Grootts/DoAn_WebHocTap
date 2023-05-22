@@ -1,0 +1,13 @@
+{
+  "name": "doanwebhoctap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd Nodejs && npm install  && cd ../ReactJS && npm install && npm run build",
+    "start": "node Nodejs/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
