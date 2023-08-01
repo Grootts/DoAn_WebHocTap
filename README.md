@@ -1,4 +1,4 @@
-<h1>Video demo: https://studio.youtube.com/video/vghpdHsSUac/edit</h1>
+<h1>Video demo:https://www.youtube.com/watch?v=vghpdHsSUac&feature=youtu.be</h1>
 Chức năng chính của website:</br>
 Học sinh:</br>
 - Xem khóa học, thông tin giáo viên</br>
